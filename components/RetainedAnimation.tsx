@@ -5,6 +5,8 @@ import { Heart, Star, Sparkles } from 'lucide-react'
 import { Team } from '@/types'
 import { getPlayerImage, handleImageError } from '@/utils/playerImage'
 import { audioManager } from '@/utils/audioManager'
+import { getTeamLogoUrl } from '@/utils/teamLogos'
+import { getAssetUrl } from '@/utils/appPaths'
 import React from 'react'
 
 interface RetainedAnimationProps {
@@ -20,7 +22,7 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
     if (show) {
       // Play retained sound effect
       audioManager.playRetainedSound()
-      
+
       // Complete animation after 8 seconds
       const completeTimer = setTimeout(() => {
         onComplete()
@@ -42,7 +44,7 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
         >
           {/* Subtle team color overlay */}
-          <div 
+          <div
             className="absolute inset-0 opacity-20"
             style={{ background: `radial-gradient(circle at center, ${team.color}40, transparent 70%)` }}
           />
@@ -50,20 +52,20 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
           {[...Array(25)].map((_, i) => (
             <motion.div
               key={i}
-              initial={{ 
-                x: '50vw', 
+              initial={{
+                x: '50vw',
                 y: '100vh',
                 scale: 0,
                 opacity: 0
               }}
-              animate={{ 
+              animate={{
                 x: `${20 + Math.random() * 60}vw`,
                 y: `${-20 + Math.random() * 40}vh`,
                 scale: [0, 1, 0.8],
                 opacity: [0, 1, 0],
                 rotate: Math.random() * 360
               }}
-              transition={{ 
+              transition={{
                 duration: 3,
                 ease: 'easeOut',
                 delay: i * 0.08
@@ -71,13 +73,13 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
               className="absolute"
             >
               {i % 3 === 0 ? (
-                <Heart 
-                  className="w-6 h-6" 
+                <Heart
+                  className="w-6 h-6"
                   style={{ color: team.color, fill: team.color }}
                 />
               ) : (
-                <Star 
-                  className="w-6 h-6" 
+                <Star
+                  className="w-6 h-6"
                   style={{ color: '#FFD700', fill: '#FFD700' }}
                 />
               )}
@@ -90,7 +92,7 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
             <motion.div
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
-              transition={{ 
+              transition={{
                 type: 'spring',
                 stiffness: 100,
                 damping: 15,
@@ -111,9 +113,9 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
               />
 
               {/* Player photo */}
-              <div 
+              <div
                 className="relative w-80 h-80 rounded-full overflow-hidden border-8"
-                style={{ 
+                style={{
                   borderColor: '#A855F7',
                   boxShadow: `0 0 100px #A855F780, 0 0 200px #A855F740`,
                   background: `linear-gradient(135deg, #A855F760, #A855F730)`
@@ -130,7 +132,7 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
               {/* Flowing RETAINED text on LEFT side */}
               <motion.div
                 initial={{ x: 100, opacity: 0 }}
-                animate={{ 
+                animate={{
                   x: [-400, -420, -400],
                   opacity: 1
                 }}
@@ -144,9 +146,9 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
                 }}
                 className="absolute top-1/2 -translate-y-1/2 left-0"
               >
-                <div 
+                <div
                   className="font-black px-8 py-4 rounded-2xl transform -rotate-12"
-                  style={{ 
+                  style={{
                     fontSize: '4rem',
                     color: '#A855F7',
                     textShadow: '0 0 40px #A855F7, 0 0 80px #A855F7, 0 4px 10px rgba(0,0,0,0.9)',
@@ -164,7 +166,7 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
               {/* Flowing RETAINED text on RIGHT side */}
               <motion.div
                 initial={{ x: -100, opacity: 0 }}
-                animate={{ 
+                animate={{
                   x: [400, 420, 400],
                   opacity: 1
                 }}
@@ -178,9 +180,9 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
                 }}
                 className="absolute top-1/2 -translate-y-1/2 right-0"
               >
-                <div 
+                <div
                   className="font-black px-8 py-4 rounded-2xl transform rotate-12"
-                  style={{ 
+                  style={{
                     fontSize: '4rem',
                     color: '#A855F7',
                     textShadow: '0 0 40px #A855F7, 0 0 80px #A855F7, 0 4px 10px rgba(0,0,0,0.9)',
@@ -196,7 +198,7 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
               </motion.div>
             </motion.div>
 
-            <div 
+            <div
               className="text-center"
             >
               {/* Player Name */}
@@ -205,7 +207,7 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.8 }}
                 className="text-7xl font-black mb-6"
-                style={{ 
+                style={{
                   color: '#FFFFFF',
                   textShadow: `0 0 40px #A855F7, 0 0 80px #A855F7, 0 6px 15px rgba(0,0,0,0.9)`,
                   fontFamily: 'Impact, sans-serif',
@@ -224,7 +226,7 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
                 className="flex items-center gap-6 mb-8"
               >
                 <motion.div
-                  animate={{ 
+                  animate={{
                     rotate: [0, 10, -10, 0],
                     scale: [1, 1.1, 1]
                   }}
@@ -235,20 +237,20 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
                   }}
                   className="relative"
                 >
-                  <div 
+                  <div
                     className="absolute inset-0 rounded-full blur-2xl"
                     style={{ background: team.color, opacity: 0.6 }}
                   />
-                  <div 
+                  <div
                     className="relative w-32 h-32 rounded-full flex items-center justify-center"
-                    style={{ 
+                    style={{
                       background: `linear-gradient(135deg, ${team.color}60, ${team.color}90)`,
                       boxShadow: `0 0 60px ${team.color}`
                     }}
                   >
-                    <img 
-                      src={team.logo} 
-                      alt={team.name} 
+                    <img
+                      src={getTeamLogoUrl(team.name)}
+                      alt={team.name}
                       className="w-24 h-24 object-contain"
                     />
                   </div>
@@ -256,9 +258,9 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
 
                 <div className="text-center">
                   <div className="text-2xl text-gray-300 mb-2">RETAINED BY</div>
-                  <div 
+                  <div
                     className="text-6xl font-black"
-                    style={{ 
+                    style={{
                       color: team.color,
                       textShadow: `0 0 30px ${team.color}, 0 4px 10px rgba(0,0,0,0.8)`,
                       fontFamily: 'Impact, sans-serif'
@@ -275,19 +277,19 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.9, duration: 0.8 }}
                 className="px-12 py-6 rounded-3xl"
-                style={{ 
+                style={{
                   background: `linear-gradient(135deg, ${team.color}60, ${team.color}40)`,
                   border: `4px solid ${team.color}`,
                   boxShadow: `0 0 60px ${team.color}80`
                 }}
               >
-                <div 
+                <div
                   className="text-xl font-bold mb-2 text-white"
                   style={{ letterSpacing: '0.3em' }}
                 >
                   RETENTION AMOUNT
                 </div>
-                <motion.div 
+                <motion.div
                   animate={{
                     scale: [1, 1.05, 1]
                   }}
@@ -316,7 +318,7 @@ export default function RetainedAnimation({ show, team, playerName, amount, onCo
             animate={{ scale: 5, opacity: 0 }}
             transition={{ duration: 2 }}
             className="absolute rounded-full"
-            style={{ 
+            style={{
               background: `radial-gradient(circle, ${team.color}40, transparent)`,
               width: '200px',
               height: '200px',

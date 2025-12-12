@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Trophy, Sparkles, Gavel } from 'lucide-react'
 import { Team } from '@/types'
 import { getPlayerImage, handleImageError } from '@/utils/playerImage'
+import { getTeamLogoUrl } from '@/utils/teamLogos'
 import { audioManager } from '@/utils/audioManager'
 
 interface SoldAnimationProps {
@@ -23,10 +24,10 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
     if (show) {
       setShowHammer(true)
       setShowSoldCard(false)
-      
+
       // Play sold sound effect
       audioManager.playSoldSound()
-      
+
       // Show hammer for 2 seconds, then show sold card
       const hammerTimer = setTimeout(() => {
         setShowHammer(false)
@@ -57,7 +58,7 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
         >
           {/* Subtle team color overlay */}
-          <div 
+          <div
             className="absolute inset-0 opacity-20"
             style={{ background: `radial-gradient(circle at center, ${team.color}40, transparent 70%)` }}
           />
@@ -73,12 +74,12 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                 {/* Hammer Icon */}
                 <motion.div
                   initial={{ scale: 0, rotate: -45, y: -200 }}
-                  animate={{ 
+                  animate={{
                     scale: [0, 1.5, 1.2],
                     rotate: [-45, 0, 0],
                     y: [-200, 0, 0]
                   }}
-                  transition={{ 
+                  transition={{
                     duration: 1.2,
                     times: [0, 0.7, 1],
                     ease: 'easeOut'
@@ -86,19 +87,19 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                   className="relative"
                 >
                   <motion.div
-                    animate={{ 
+                    animate={{
                       rotate: [0, -10, 10, -10, 0],
                       scale: [1, 1.1, 1]
                     }}
-                    transition={{ 
+                    transition={{
                       delay: 1.2,
                       duration: 0.8,
                       times: [0, 0.25, 0.5, 0.75, 1]
                     }}
                   >
-                    <Gavel 
+                    <Gavel
                       className="w-64 h-64"
-                      style={{ 
+                      style={{
                         color: team.color,
                         filter: `drop-shadow(0 0 40px ${team.color})`
                       }}
@@ -113,7 +114,7 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                   animate={{ scale: [0, 2, 3], opacity: [0, 1, 0] }}
                   transition={{ delay: 1.2, duration: 1 }}
                   className="absolute w-32 h-32 rounded-full"
-                  style={{ 
+                  style={{
                     background: `radial-gradient(circle, ${team.color}80, transparent)`,
                   }}
                 />
@@ -124,7 +125,7 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                     key={i}
                     initial={{ scale: 0, opacity: 0.8 }}
                     animate={{ scale: 4, opacity: 0 }}
-                    transition={{ 
+                    transition={{
                       delay: 1.2 + i * 0.2,
                       duration: 1.5,
                       ease: 'easeOut'
@@ -145,25 +146,25 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                 {[...Array(40)].map((_, i) => (
                   <motion.div
                     key={i}
-                    initial={{ 
-                      x: '50vw', 
+                    initial={{
+                      x: '50vw',
                       y: '50vh',
                       scale: 0,
                       rotate: 0
                     }}
-                    animate={{ 
+                    animate={{
                       x: `${Math.random() * 100}vw`,
                       y: `${Math.random() * 100}vh`,
                       scale: [0, 1, 0.5],
                       rotate: Math.random() * 360
                     }}
-                    transition={{ 
+                    transition={{
                       duration: 3,
                       ease: 'easeOut',
                       delay: i * 0.03
                     }}
                     className="absolute w-4 h-4 rounded-full"
-                    style={{ 
+                    style={{
                       background: i % 3 === 0 ? '#10B981' : i % 3 === 1 ? team.color : '#FFD700',
                       boxShadow: `0 0 20px ${i % 3 === 0 ? '#10B981' : team.color}`
                     }}
@@ -176,7 +177,7 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                   <motion.div
                     initial={{ scale: 0, rotate: -180 }}
                     animate={{ scale: 1, rotate: 0 }}
-                    transition={{ 
+                    transition={{
                       type: 'spring',
                       stiffness: 100,
                       damping: 15,
@@ -197,9 +198,9 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                     />
 
                     {/* Player photo */}
-                    <div 
+                    <div
                       className="relative w-80 h-80 rounded-full overflow-hidden border-8"
-                      style={{ 
+                      style={{
                         borderColor: team.color,
                         boxShadow: `0 0 100px ${team.color}80, 0 0 200px ${team.color}40`,
                         background: `linear-gradient(135deg, ${team.color}60, ${team.color}30)`
@@ -216,7 +217,7 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                     {/* Flowing SOLD text on LEFT side */}
                     <motion.div
                       initial={{ x: 100, opacity: 0 }}
-                      animate={{ 
+                      animate={{
                         x: [-400, -420, -400],
                         opacity: 1
                       }}
@@ -233,9 +234,9 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                         transformOrigin: 'center'
                       }}
                     >
-                      <div 
+                      <div
                         className="font-black px-8 py-4 rounded-2xl transform -rotate-12"
-                        style={{ 
+                        style={{
                           fontSize: '5rem',
                           color: '#10B981',
                           textShadow: '0 0 40px #10B981, 0 0 80px #10B981, 0 4px 10px rgba(0,0,0,0.9)',
@@ -253,7 +254,7 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                     {/* Flowing SOLD text on RIGHT side */}
                     <motion.div
                       initial={{ x: -100, opacity: 0 }}
-                      animate={{ 
+                      animate={{
                         x: [400, 420, 400],
                         opacity: 1
                       }}
@@ -270,9 +271,9 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                         transformOrigin: 'center'
                       }}
                     >
-                      <div 
+                      <div
                         className="font-black px-8 py-4 rounded-2xl transform rotate-12"
-                        style={{ 
+                        style={{
                           fontSize: '5rem',
                           color: '#10B981',
                           textShadow: '0 0 40px #10B981, 0 0 80px #10B981, 0 4px 10px rgba(0,0,0,0.9)',
@@ -294,7 +295,7 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.5, duration: 0.8 }}
                     className="text-7xl font-black mb-6 text-center"
-                    style={{ 
+                    style={{
                       color: '#FFFFFF',
                       textShadow: `0 0 40px ${team.color}, 0 0 80px ${team.color}, 0 6px 15px rgba(0,0,0,0.9)`,
                       fontFamily: 'Impact, sans-serif',
@@ -313,7 +314,7 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                     className="flex items-center gap-6 mb-8"
                   >
                     <motion.div
-                      animate={{ 
+                      animate={{
                         rotate: [0, 10, -10, 0],
                         scale: [1, 1.1, 1]
                       }}
@@ -324,20 +325,20 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                       }}
                       className="relative"
                     >
-                      <div 
+                      <div
                         className="absolute inset-0 rounded-full blur-2xl"
                         style={{ background: team.color, opacity: 0.6 }}
                       />
-                      <div 
+                      <div
                         className="relative w-32 h-32 rounded-full flex items-center justify-center"
-                        style={{ 
+                        style={{
                           background: `linear-gradient(135deg, ${team.color}60, ${team.color}90)`,
                           boxShadow: `0 0 60px ${team.color}`
                         }}
                       >
-                        <img 
-                          src={team.logo} 
-                          alt={team.name} 
+                        <img
+                          src={getTeamLogoUrl(team.name)}
+                          alt={team.name}
                           className="w-24 h-24 object-contain"
                         />
                       </div>
@@ -345,9 +346,9 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
 
                     <div className="text-center">
                       <div className="text-2xl text-gray-300 mb-2">SOLD TO</div>
-                      <div 
+                      <div
                         className="text-6xl font-black"
-                        style={{ 
+                        style={{
                           color: team.color,
                           textShadow: `0 0 30px ${team.color}, 0 4px 10px rgba(0,0,0,0.8)`,
                           fontFamily: 'Impact, sans-serif'
@@ -364,19 +365,19 @@ export default function SoldAnimation({ show, team, playerName, amount, onComple
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.9, duration: 0.8 }}
                     className="px-12 py-6 rounded-3xl text-center"
-                    style={{ 
+                    style={{
                       background: `linear-gradient(135deg, ${team.color}60, ${team.color}40)`,
                       border: `4px solid ${team.color}`,
                       boxShadow: `0 0 60px ${team.color}80`
                     }}
                   >
-                    <div 
+                    <div
                       className="text-xl font-bold mb-2 text-white"
                       style={{ letterSpacing: '0.3em' }}
                     >
                       FINAL PRICE
                     </div>
-                    <motion.div 
+                    <motion.div
                       animate={{
                         scale: [1, 1.05, 1]
                       }}
