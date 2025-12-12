@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: ultra-auction-system
+    env: docker
+    region: singapore
+    plan: free
+    dockerContext: .
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
