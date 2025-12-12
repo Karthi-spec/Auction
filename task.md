@@ -9,5 +9,5 @@
     - [x] Update `RTMAnimation.tsx` with correct paths
     - [x] Update `RetainedAnimation.tsx` with correct paths
     - [x] Update `SoldAnimation.tsx` with correct paths
-    - [ ] Commit changes (User Action Required)
-    - [ ] Attempt `git push` (User Action Required)
+    - [/] Commit changes (Ready for User)
+    - [/] Attempt `git push` (Ready for User)
