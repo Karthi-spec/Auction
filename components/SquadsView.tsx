@@ -5,6 +5,9 @@ import { Trophy, Shield, Heart, X, Plane } from 'lucide-react'
 import { useAuctionStore } from '@/store/auctionStore'
 import { getPlayerImage, handleImageError } from '@/utils/playerImage'
 
+import { getTeamLogoUrl } from '@/utils/teamLogos'
+import { getAssetUrl } from '@/utils/appPaths'
+
 interface SquadsViewProps {
   onClose: () => void
 }
@@ -45,7 +48,7 @@ export default function SquadsView({ onClose }: SquadsViewProps) {
                   className="w-16 h-16 rounded-full flex items-center justify-center overflow-hidden"
                   style={{ background: `${team.color}20` }}
                 >
-                  <img src={team.logo} alt={team.name} className="w-14 h-14 object-contain" />
+                  <img src={getTeamLogoUrl(team.name)} alt={team.name} className="w-14 h-14 object-contain" />
                 </div>
                 <div className="flex-1">
                   <h2 className="text-2xl font-bold" style={{ color: team.color }}>
@@ -74,8 +77,8 @@ export default function SquadsView({ onClose }: SquadsViewProps) {
                   </div>
                   <div className="bg-blue-500/20 px-3 py-1 rounded-full text-sm">
                     <span className="inline-flex items-center gap-1 text-blue-400">
-                      <img 
-                        src="/rtm-card.svg" 
+                      <img
+                        src={getAssetUrl('/rtm-card.svg')}
                         alt="RTM"
                         className="w-4 h-4 object-contain"
                       />
@@ -84,8 +87,8 @@ export default function SquadsView({ onClose }: SquadsViewProps) {
                   </div>
                   <div className="bg-purple-500/20 px-3 py-1 rounded-full text-sm">
                     <span className="inline-flex items-center gap-1 text-purple-400">
-                      <img 
-                        src="/retain-card.svg" 
+                      <img
+                        src={getAssetUrl('/retain-card.svg')}
                         alt="RETAIN"
                         className="w-5 h-3 object-contain"
                       />
@@ -129,8 +132,8 @@ export default function SquadsView({ onClose }: SquadsViewProps) {
                               {player.name}
                               {player.status === 'retained' && (
                                 <span className="inline-flex items-center gap-1 bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full text-xs">
-                                  <img 
-                                    src="/retain-card.svg" 
+                                  <img
+                                    src={getAssetUrl('/retain-card.svg')}
                                     alt="RETAIN"
                                     className="w-4 h-2.5 object-contain"
                                   />
@@ -139,8 +142,8 @@ export default function SquadsView({ onClose }: SquadsViewProps) {
                               )}
                               {player.previousTeam === team.name && player.status === 'sold' && (
                                 <span className="inline-flex items-center gap-1 bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full text-xs">
-                                  <img 
-                                    src="/rtm-card.svg" 
+                                  <img
+                                    src={getAssetUrl('/rtm-card.svg')}
                                     alt="RTM"
                                     className="w-3 h-3 object-contain"
                                   />

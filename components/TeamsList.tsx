@@ -5,6 +5,9 @@ import { Trophy, Wallet, Plane } from 'lucide-react'
 import { useAuctionStore } from '@/store/auctionStore'
 import { getPlayerImage, handleImageError } from '@/utils/playerImage'
 
+import { getTeamLogoUrl } from '@/utils/teamLogos'
+import { getAssetUrl } from '@/utils/appPaths'
+
 export default function TeamsList() {
   const { teams } = useAuctionStore()
 
@@ -30,12 +33,12 @@ export default function TeamsList() {
           >
             <div className="flex items-center gap-3 mb-3">
               <div className="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden bg-white/10">
-                <img src={team.logo} alt={team.name} className="w-10 h-10 object-contain" />
+                <img src={getTeamLogoUrl(team.name)} alt={team.name} className="w-10 h-10 object-contain" />
               </div>
               <div className="flex-1">
                 <div className="font-bold text-lg">{team.name}</div>
                 <div className="text-sm text-gray-400">
-                  {team.players.length}/25 players • 
+                  {team.players.length}/25 players •
                   <span className="inline-flex items-center gap-0.5 ml-1">
                     <Plane className="w-3 h-3" />
                     {team.players.filter(p => p.country !== 'India').length}/8
@@ -43,16 +46,16 @@ export default function TeamsList() {
                 </div>
                 <div className="flex gap-2 mt-1">
                   <span className="inline-flex items-center gap-1 text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded">
-                    <img 
-                      src="/rtm-card.svg" 
+                    <img
+                      src={getAssetUrl('/rtm-card.svg')}
                       alt="RTM"
                       className="w-3 h-3 object-contain"
                     />
                     RTM: {team.rtmAvailable}
                   </span>
                   <span className="inline-flex items-center gap-1 text-xs bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded">
-                    <img 
-                      src="/retain-card.svg" 
+                    <img
+                      src={getAssetUrl('/retain-card.svg')}
                       alt="RETAIN"
                       className="w-4 h-2.5 object-contain"
                     />
@@ -91,8 +94,8 @@ export default function TeamsList() {
                           <span className="text-sm truncate">{player.name}</span>
                           {player.status === 'retained' && (
                             <span className="inline-flex items-center gap-1 bg-purple-500/20 text-purple-400 px-1.5 py-0.5 rounded text-xs">
-                              <img 
-                                src="/retain-card.svg" 
+                              <img
+                                src={getAssetUrl('/retain-card.svg')}
                                 alt="RETAIN"
                                 className="w-3 h-2 object-contain"
                               />
