@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 30, 35, 60;
+  --background-end-rgb: 45, 50, 85;
+  --accent-gold: #FFD700;
+  --accent-gold-dark: #B8860B;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: radial-gradient(ellipse at top right, rgba(79, 70, 229, 0.15), transparent 50%),
+              radial-gradient(ellipse at bottom left, rgba(139, 92, 246, 0.15), transparent 50%),
+              linear-gradient(135deg, rgb(30, 35, 60) 0%, rgb(45, 50, 85) 50%, rgb(35, 40, 70) 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Decorative circles background */
+body::before {
+  content: '';
+  position: fixed;
+  top: -10%;
+  right: -5%;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  border: 2px dotted rgba(255, 215, 0, 0.2);
+  animation: rotate 60s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -10%;
+  left: -5%;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  border: 2px dotted rgba(139, 92, 246, 0.2);
+  animation: rotate 45s linear infinite reverse;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  .gold-gradient {
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+  }
+  
+  .premium-shadow {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
+  
+  .ipl-glow {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3),
+                0 0 40px rgba(255, 215, 0, 0.2),
+                0 0 60px rgba(255, 215, 0, 0.1);
+  }
+  
+  .decorative-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px dotted rgba(255, 215, 0, 0.15);
+    pointer-events: none;
+  }
+  
+  .pulse-gold {
+    animation: pulse-gold 2s ease-in-out infinite;
+  }
+  
+  @keyframes pulse-gold {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+    }
+  }
+}

@@ -1,0 +1,38 @@
+<svg width="512" height="320" viewBox="0 0 512 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Card background -->
+  <rect width="512" height="320" rx="24" fill="url(#purpleGradient)"/>
+  
+  <!-- Gradient definition -->
+  <defs>
+    <linearGradient id="purpleGradient" x1="0" y1="0" x2="512" y2="320">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#5B21B6"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Heart icon -->
+  <g transform="translate(256, 100)">
+    <path d="M0,-20 C-10,-30 -25,-30 -35,-20 C-45,-10 -45,5 -35,15 L0,50 L35,15 C45,5 45,-10 35,-20 C25,-30 10,-30 0,-20 Z" 
+          fill="none" 
+          stroke="#E9D5FF" 
+          stroke-width="6" 
+          filter="url(#glow)"/>
+  </g>
+  
+  <!-- RETAIN text -->
+  <text x="256" y="220" 
+        font-family="Arial, sans-serif" 
+        font-size="72" 
+        font-weight="900" 
+        fill="white" 
+        text-anchor="middle" 
+        dominant-baseline="middle"
+        filter="url(#glow)">RETAIN</text>
+</svg>

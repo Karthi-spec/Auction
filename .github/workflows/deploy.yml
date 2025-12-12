@@ -1,0 +1,50 @@
+name: Deploy Full-Stack IPL Auction System
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: |
+          npm ci
+          node install-server.js
+          
+      - name: Build application
+        run: npm run build
+        
+      - name: Deploy to Railway
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "🚀 Ready for Railway deployment!"
+          echo "Visit https://railway.app to deploy this repository"
+          
+      - name: Create deployment artifact
+        run: |
+          mkdir -p deployment
+          cp -r .next deployment/
+          cp -r server deployment/
+          cp -r public deployment/
+          cp -r Logos deployment/
+          cp -r "Team videos" deployment/
+          cp package.json deployment/
+          cp *.json deployment/
+          
+      - name: Upload deployment artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ipl-auction-deployment
+          path: deployment/

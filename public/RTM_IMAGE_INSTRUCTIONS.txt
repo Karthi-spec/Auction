@@ -1,0 +1,34 @@
+RTM CARD IMAGE SETUP INSTRUCTIONS
+==================================
+
+CURRENT STATUS:
+✅ Temporary SVG placeholder is active (rtm-card.svg)
+⏳ Waiting for actual PNG image
+
+TO REPLACE WITH ACTUAL IMAGE:
+1. Save the RTM card image (hand holding RTM card) as: rtm-card.png
+2. Place it in this 'public' folder
+3. Update all component references from .svg to .png
+
+CURRENT SETUP:
+- Using: public/rtm-card.svg (temporary placeholder)
+- Target: public/rtm-card.png (your actual image)
+
+IMAGE SPECIFICATIONS FOR PNG:
+- Format: PNG (transparent background recommended)
+- Recommended size: 512x512px or similar square dimensions
+- The image shows a hand holding an RTM card
+
+COMPONENTS USING RTM IMAGE:
+- RTM Modal (header + button)
+- RTM Animation (main badge + success message)
+- Team Lists (RTM count)
+- Squad Views (header + player badges)
+- Auction Pool (player badges)
+- Admin Panel (team selection)
+
+QUICK REPLACEMENT:
+Once you have rtm-card.png in the public folder, run:
+  Find: /rtm-card.svg
+  Replace: /rtm-card.png
+  In all component files

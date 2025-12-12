@@ -1,0 +1,44 @@
+{
+  "name": "ultra-auction-system",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
+    "client:dev": "next dev",
+    "server:dev": "node server/index.js",
+    "build": "npm run client:build && npm run server:build",
+    "client:build": "next build",
+    "server:build": "echo 'Server build not required for pure JS'",
+    "start": "concurrently \"node server/index.js\" \"next start\"",
+    "lint": "next lint",
+    "export": "next build && next export"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "framer-motion": "^10.16.16",
+    "helmet": "^7.1.0",
+    "joi": "^18.0.2",
+    "lucide-react": "^0.303.0",
+    "next": "14.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "socket.io": "^4.7.2",
+    "socket.io-client": "^4.8.1",
+    "sqlite3": "^5.1.6",
+    "zustand": "^4.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "concurrently": "^8.2.2",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "typescript": "^5"
+  }
+}

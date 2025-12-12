@@ -1,0 +1,57 @@
+<svg width="512" height="640" viewBox="0 0 512 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="blueGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#1E40AF"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- RTM Card (tilted) -->
+  <g transform="translate(256, 180) rotate(-15)">
+    <!-- Card shadow -->
+    <rect x="-100" y="-140" width="200" height="280" rx="12" fill="black" opacity="0.2" filter="url(#shadow)"/>
+    
+    <!-- Card background -->
+    <rect x="-100" y="-140" width="200" height="280" rx="12" fill="white"/>
+    
+    <!-- Card inner blue section -->
+    <rect x="-85" y="-125" width="170" height="250" rx="8" fill="url(#blueGradient)"/>
+    
+    <!-- RTM text on card -->
+    <text x="0" y="20" 
+          font-family="Arial, sans-serif" 
+          font-size="64" 
+          font-weight="900" 
+          fill="white" 
+          text-anchor="middle" 
+          dominant-baseline="middle">RTM</text>
+  </g>
+  
+  <!-- Hand holding the card -->
+  <g transform="translate(256, 420)">
+    <!-- Palm -->
+    <ellipse cx="0" cy="0" rx="70" ry="85" fill="#F5F5F5" stroke="#D1D5DB" stroke-width="3"/>
+    
+    <!-- Thumb (left side) -->
+    <ellipse cx="-55" cy="-15" rx="25" ry="40" fill="#F5F5F5" stroke="#D1D5DB" stroke-width="3" transform="rotate(-25 -55 -15)"/>
+    
+    <!-- Index finger -->
+    <rect x="-35" y="-90" width="28" height="75" rx="14" fill="#F5F5F5" stroke="#D1D5DB" stroke-width="3"/>
+    
+    <!-- Middle finger -->
+    <rect x="-5" y="-100" width="28" height="85" rx="14" fill="#F5F5F5" stroke="#D1D5DB" stroke-width="3"/>
+    
+    <!-- Ring finger -->
+    <rect x="25" y="-90" width="28" height="75" rx="14" fill="#F5F5F5" stroke="#D1D5DB" stroke-width="3"/>
+    
+    <!-- Pinky -->
+    <rect x="55" y="-70" width="24" height="60" rx="12" fill="#F5F5F5" stroke="#D1D5DB" stroke-width="3"/>
+    
+    <!-- Wrist -->
+    <ellipse cx="0" cy="70" rx="60" ry="30" fill="#F5F5F5" stroke="#D1D5DB" stroke-width="3"/>
+  </g>
+</svg>
