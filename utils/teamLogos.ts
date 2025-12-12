@@ -21,16 +21,16 @@ export function getTeamLogoUrl(teamName: string): string {
 
   // Map team names to actual logo filenames found in public/logos
   const teamLogoMap: { [key: string]: string } = {
-    'Mumbai Indians': 'Original Mumbai Indians PNG-SVG File Download Free Download.png',
-    'Chennai Super Kings': 'Original Chennai Super Fun Logo PNG - SVG File Download Free Download.png',
-    'Royal Challengers Bangalore': 'Original Royal Challengers Bangalore PNG-SVG File Download Free Download.png',
-    'Kolkata Knight Riders': 'Original Kolkata Knight Riders PNG-SVG File Download Free Download.png',
-    'Delhi Capitals': 'Original Delhi Capitals Logo PNG-SVG File Download Free Download.jpg', // Updated to match public/logo file
-    'Punjab Kings': 'Original Punjab Kings PNG-SVG File Download Free Download.png',
-    'Rajasthan Royals': 'Original Rajasthan Royals Logo PNG-SVG File Download Free Download.png',
-    'Sunrisers Hyderabad': 'Original Sunrisers Hyderabad PNG-SVG File Download Free Download.png',
-    'Gujarat Titans': 'Original Gujarat Titans Logo PNG-SVG File Download Free Download.png',
-    'Lucknow Super Giants': 'Original Lucknow Super Giants PNG-SVG File Download Free Download.png'
+    'Mumbai Indians': 'mumbai-indians.png',
+    'Chennai Super Kings': 'chennai-super-kings.png',
+    'Royal Challengers Bangalore': 'royal-challengers-bangalore.png',
+    'Kolkata Knight Riders': 'kolkata-knight-riders.png',
+    'Delhi Capitals': 'delhi-capitals.jpg',
+    'Punjab Kings': 'punjab-kings.png',
+    'Rajasthan Royals': 'rajasthan-royals.png',
+    'Sunrisers Hyderabad': 'sunrisers-hyderabad.png',
+    'Gujarat Titans': 'gujarat-titans.png',
+    'Lucknow Super Giants': 'lucknow-super-giants.png'
   };
 
   const logoFile = teamLogoMap[teamName];

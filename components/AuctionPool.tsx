@@ -6,6 +6,7 @@ import { useAuctionStore } from '@/store/auctionStore'
 import { useState } from 'react'
 import { getPlayerImage, handleImageError } from '@/utils/playerImage'
 import { getAssetUrl } from '@/utils/appPaths'
+import { getTeamLogoUrl } from '@/utils/teamLogos'
 
 interface AuctionPoolProps {
   onClose: () => void

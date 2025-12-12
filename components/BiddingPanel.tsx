@@ -1,7 +1,10 @@
-'use client'
-
-import { getTeamLogoUrl } from '@/utils/teamLogos'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useAuctionStore } from '@/store/auctionStore'
+import { Zap, AlertCircle, ArrowUp, Gavel, Check } from 'lucide-react'
+import { audioManager } from '@/utils/audioManager'
 import { getAssetUrl } from '@/utils/appPaths'
+import { getTeamLogoUrl } from '@/utils/teamLogos'
 
 
 
