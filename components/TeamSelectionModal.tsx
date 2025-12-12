@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Users, Copy, Check } from 'lucide-react'
 import { useAuctionStore } from '@/store/auctionStore'
+import { getTeamLogoUrl } from '@/utils/teamLogos'
 // Removed useConnectedClients for frontend-only version
 
 interface TeamSelectionModalProps {
@@ -105,7 +106,7 @@ export default function TeamSelectionModal({ onTeamSelect, onClose }: TeamSelect
             {teams.map((team) => {
               const isSelected = selectedTeam === team.name
               const isJoined = false // Always available in frontend-only version
-              
+
               return (
                 <motion.button
                   key={team.id}
@@ -113,24 +114,23 @@ export default function TeamSelectionModal({ onTeamSelect, onClose }: TeamSelect
                   whileTap={isJoined ? {} : { scale: 0.95 }}
                   onClick={() => !isJoined && handleTeamSelect(team.name)}
                   disabled={isJoined}
-                  className={`p-6 rounded-xl border-2 transition-all ${
-                    isSelected
+                  className={`p-6 rounded-xl border-2 transition-all ${isSelected
                       ? 'border-gold-400 bg-gold-500/20'
                       : isJoined
-                      ? 'border-gray-600 bg-gray-500/20 opacity-50 cursor-not-allowed'
-                      : 'border-white/10 hover:border-white/30 bg-white/5'
-                  }`}
+                        ? 'border-gray-600 bg-gray-500/20 opacity-50 cursor-not-allowed'
+                        : 'border-white/10 hover:border-white/30 bg-white/5'
+                    }`}
                   style={{
                     borderColor: isSelected ? '#FFD700' : isJoined ? '#666' : team.color,
                     background: isSelected
                       ? 'rgba(255, 215, 0, 0.2)'
                       : isJoined
-                      ? 'rgba(100, 100, 100, 0.2)'
-                      : `${team.color}20`,
+                        ? 'rgba(100, 100, 100, 0.2)'
+                        : `${team.color}20`,
                   }}
                 >
                   <div className="flex flex-col items-center gap-3">
-                    <img src={team.logo} alt={team.name} className="w-16 h-16 object-contain" />
+                    <img src={getTeamLogoUrl(team.name)} alt={team.name} className="w-16 h-16 object-contain" />
                     <div className="font-bold text-lg">{team.name}</div>
                     {isJoined && (
                       <div className="text-xs text-gray-400">Already Joined</div>
@@ -173,7 +173,7 @@ export default function TeamSelectionModal({ onTeamSelect, onClose }: TeamSelect
             <div className="space-y-1">
               {teams.map((team) => (
                 <div key={team.id} className="text-sm flex items-center gap-2">
-                  <img src={team.logo} alt={team.name} className="w-4 h-4 object-contain" />
+                  <img src={getTeamLogoUrl(team.name)} alt={team.name} className="w-4 h-4 object-contain" />
                   • {team.name} joined
                 </div>
               ))}

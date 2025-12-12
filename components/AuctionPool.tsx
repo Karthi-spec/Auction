@@ -5,6 +5,7 @@ import { Users, X, Filter, Search, Trophy, Ban } from 'lucide-react'
 import { useAuctionStore } from '@/store/auctionStore'
 import { useState } from 'react'
 import { getPlayerImage, handleImageError } from '@/utils/playerImage'
+import { getAssetUrl } from '@/utils/appPaths'
 
 interface AuctionPoolProps {
   onClose: () => void
@@ -18,8 +19,8 @@ export default function AuctionPool({ onClose }: AuctionPoolProps) {
   const filteredPlayers = players.filter(player => {
     const matchesFilter = filter === 'all' || player.status === filter
     const matchesSearch = player.name.toLowerCase().includes(search.toLowerCase()) ||
-                         player.role.toLowerCase().includes(search.toLowerCase()) ||
-                         player.country.toLowerCase().includes(search.toLowerCase())
+      player.role.toLowerCase().includes(search.toLowerCase()) ||
+      player.country.toLowerCase().includes(search.toLowerCase())
     return matchesFilter && matchesSearch
   })
 
@@ -58,8 +59,8 @@ export default function AuctionPool({ onClose }: AuctionPoolProps) {
       case 'retained':
         return (
           <span className="inline-flex items-center gap-1 bg-purple-500/20 text-purple-400 px-3 py-1 rounded-full text-sm font-bold">
-            <img 
-              src="/retain-card.svg" 
+            <img
+              src={getAssetUrl('/retain-card.svg')}
               alt="RETAIN"
               className="w-5 h-3 object-contain"
             />
@@ -89,7 +90,7 @@ export default function AuctionPool({ onClose }: AuctionPoolProps) {
       if (team) {
         return (
           <div className="flex items-center gap-2">
-            <img src={team.logo} alt={team.name} className="w-8 h-8 object-contain" />
+            <img src={getTeamLogoUrl(team.name)} alt={team.name} className="w-8 h-8 object-contain" />
             <div>
               <div className="text-sm font-bold" style={{ color: team.color }}>
                 {team.name}
@@ -255,8 +256,8 @@ export default function AuctionPool({ onClose }: AuctionPoolProps) {
                               {getStatusBadge(player)}
                               {player.previousTeam && player.status === 'sold' && (
                                 <span className="inline-flex items-center gap-1 bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full text-xs">
-                                  <img 
-                                    src="/rtm-card.svg" 
+                                  <img
+                                    src={getAssetUrl('/rtm-card.svg')}
                                     alt="RTM"
                                     className="w-3 h-3 object-contain"
                                   />

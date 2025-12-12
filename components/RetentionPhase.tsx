@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Heart, ArrowLeft, Check, X, Users, Crown, Search } from 'lucide-react'
 import { useAuctionStore } from '@/store/auctionStore'
 import { getPlayerImage, handleImageError } from '@/utils/playerImage'
+import { getTeamLogoUrl } from '@/utils/teamLogos'
 
 
 interface RetentionPhaseProps {
@@ -14,9 +15,9 @@ interface RetentionPhaseProps {
 }
 
 export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }: RetentionPhaseProps) {
-  const { 
-    teams, 
-    players, 
+  const {
+    teams,
+    players,
     maxRetentions,
     retainPlayer,
     completeRetentionPhase,
@@ -39,8 +40,8 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
   // Get all available players in the pool (for retention selection)
   const getAvailablePlayersForRetention = () => {
     return players.filter(p => p.status === 'available')
-      .filter(p => 
-        searchQuery === '' || 
+      .filter(p =>
+        searchQuery === '' ||
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -50,8 +51,8 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
 
   // Get already retained players for a team
   const getRetainedPlayers = (teamName: string) => {
-    return players.filter(p => 
-      p.status === 'retained' && 
+    return players.filter(p =>
+      p.status === 'retained' &&
       p.previousTeam === teamName
     )
   }
@@ -67,24 +68,24 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
   const confirmRetention = () => {
     if (playerToRetain) {
       const team = teams.find(t => t.name === playerToRetain.team)
-      
+
       // Set animation data
       setRetentionAnimationData({
         player: playerToRetain.player,
         team: team,
         price: playerToRetain.price
       })
-      
+
       // Direct retention for all users - show animation first, then retain
       setShowRetentionAnimation(true)
-      
+
       // Retain player after animation completes
       setTimeout(() => {
         retainPlayer(playerToRetain.team, playerToRetain.player.name, playerToRetain.price)
         setShowRetentionAnimation(false)
         setRetentionAnimationData(null)
       }, 3000)
-      
+
       setRetentionPrices(prev => ({ ...prev, [playerToRetain.player.name]: '' }))
       setShowConfirmModal(false)
       setPlayerToRetain(null)
@@ -94,10 +95,10 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
   const canCompleteRetention = () => {
     // Only admin can complete retention phase
     if (userRole !== 'admin') return false
-    
+
     // All teams must have confirmed their retentions
-    return teams.every(team => 
-      teamRetentionStatus[team.name] === 'confirmed' || 
+    return teams.every(team =>
+      teamRetentionStatus[team.name] === 'confirmed' ||
       teamRetentionStatus[team.name] === 'completed'
     )
   }
@@ -139,34 +140,34 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                 animate={{ rotate: 360 }}
                 transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                 className="absolute inset-0 rounded-full border-4 opacity-60"
-                style={{ 
+                style={{
                   borderColor: selectedTeamObj.color,
                   transform: 'scale(1.3)'
                 }}
               />
-              
+
               {/* Team logo */}
-              <div 
+              <div
                 className="w-24 h-24 rounded-full flex items-center justify-center border-4 relative z-10"
-                style={{ 
+                style={{
                   borderColor: selectedTeamObj.color,
                   background: `linear-gradient(135deg, ${selectedTeamObj.color}20, ${selectedTeamObj.color}40)`,
                   boxShadow: `0 0 30px ${selectedTeamObj.color}60`
                 }}
               >
-                <img 
-                  src={selectedTeamObj.logo} 
-                  alt={selectedTeamObj.name} 
-                  className="w-16 h-16 object-contain" 
+                <img
+                  src={getTeamLogoUrl(selectedTeamObj.name)}
+                  alt={selectedTeamObj.name}
+                  className="w-16 h-16 object-contain"
                 />
               </div>
             </motion.div>
           )}
-          
+
           <div className="text-center">
             <div className="flex items-center gap-3 justify-center mb-2">
               <Heart className="w-8 h-8" style={{ color: selectedTeamObj?.color || '#A855F7' }} />
-              <h1 
+              <h1
                 className="text-4xl font-bold"
                 style={{ color: selectedTeamObj?.color || '#A855F7' }}
               >
@@ -174,7 +175,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
               </h1>
             </div>
             {selectedTeamObj && (
-              <div 
+              <div
                 className="text-xl font-bold"
                 style={{ color: selectedTeamObj.color }}
               >
@@ -226,7 +227,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
           .map((team) => {
             const retainedCount = getRetainedPlayers(team.name).length
             const isDisabled = userRole === 'team' && team.name !== userTeam
-            
+
             return (
               <motion.button
                 key={team.id}
@@ -234,35 +235,34 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                 whileTap={!isDisabled ? { scale: 0.95 } : {}}
                 onClick={() => !isDisabled && setSelectedTeam(team.name)}
                 disabled={isDisabled}
-                className={`p-4 rounded-xl border-2 transition-all ${
-                  selectedTeam === team.name
+                className={`p-4 rounded-xl border-2 transition-all ${selectedTeam === team.name
                     ? `bg-opacity-20`
                     : isDisabled
-                    ? 'border-gray-600 bg-gray-800/20 opacity-50 cursor-not-allowed'
-                    : 'border-white/20 hover:border-opacity-50'
-                }`}
+                      ? 'border-gray-600 bg-gray-800/20 opacity-50 cursor-not-allowed'
+                      : 'border-white/20 hover:border-opacity-50'
+                  }`}
                 style={{
-                  borderColor: selectedTeam === team.name 
-                    ? team.color 
-                    : isDisabled 
-                    ? '#4B5563' 
-                    : 'rgba(255, 255, 255, 0.2)',
-                  backgroundColor: selectedTeam === team.name 
-                    ? `${team.color}20` 
-                    : isDisabled 
-                    ? 'rgba(31, 41, 55, 0.2)' 
-                    : 'transparent',
-                  boxShadow: selectedTeam === team.name 
-                    ? `0 0 20px ${team.color}40` 
+                  borderColor: selectedTeam === team.name
+                    ? team.color
+                    : isDisabled
+                      ? '#4B5563'
+                      : 'rgba(255, 255, 255, 0.2)',
+                  backgroundColor: selectedTeam === team.name
+                    ? `${team.color}20`
+                    : isDisabled
+                      ? 'rgba(31, 41, 55, 0.2)'
+                      : 'transparent',
+                  boxShadow: selectedTeam === team.name
+                    ? `0 0 20px ${team.color}40`
                     : 'none'
                 }}
               >
                 <div className="flex flex-col items-center gap-2">
                   <div className="relative">
-                    <img 
-                      src={team.logo} 
-                      alt={team.name} 
-                      className="w-12 h-12 object-contain" 
+                    <img
+                      src={getTeamLogoUrl(team.name)}
+                      alt={team.name}
+                      className="w-12 h-12 object-contain"
                     />
                     {teamRetentionStatus[team.name] === 'confirmed' && (
                       <div className="absolute -top-1 -right-1 bg-green-500 rounded-full w-5 h-5 flex items-center justify-center">
@@ -302,12 +302,12 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
           }}
         >
           <div className="flex items-center gap-3 mb-6">
-            <img 
-              src={teams.find(t => t.name === selectedTeam)?.logo} 
-              alt={selectedTeam} 
-              className="w-8 h-8 object-contain" 
+            <img
+              src={getTeamLogoUrl(selectedTeam)}
+              alt={selectedTeam}
+              className="w-8 h-8 object-contain"
             />
-            <h3 
+            <h3
               className="text-2xl font-bold"
               style={{ color: selectedTeamObj?.color || '#ffffff' }}
             >
@@ -322,7 +322,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                 <Users className="w-5 h-5 text-purple-400" />
                 Player Pool
               </h4>
-              
+
               {/* Search Bar */}
               <div className="relative mb-4">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -334,12 +334,12 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                   className="w-full bg-white/10 border border-white/20 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-purple-400"
                 />
               </div>
-              
+
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {getAvailablePlayersForRetention().map((player) => {
                   const team = teams.find(t => t.name === selectedTeam)
                   const canRetain = team && team.retentionsUsed < maxRetentions
-                  
+
                   return (
                     <motion.div
                       key={player.id}
@@ -356,7 +356,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                             onError={(e) => handleImageError(e, player.name)}
                           />
                         </div>
-                        
+
                         <div className="flex-1">
                           <div className="font-bold">{player.name}</div>
                           <div className="text-sm text-gray-400">
@@ -366,7 +366,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                             {player.set} • Base: ₹{player.basePrice}Cr
                           </div>
                         </div>
-                        
+
                         <div className="flex items-center gap-2">
                           <input
                             type="number"
@@ -393,7 +393,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                     </motion.div>
                   )
                 })}
-                
+
                 {getAvailablePlayersForRetention().length === 0 && (
                   <div className="text-center py-8 text-gray-400">
                     <Users className="w-12 h-12 mx-auto mb-2 opacity-50" />
@@ -409,7 +409,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                 <Crown className="w-5 h-5 text-green-400" />
                 Retained Players
               </h4>
-              
+
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {getRetainedPlayers(selectedTeam).map((player) => (
                   <motion.div
@@ -427,21 +427,21 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                           onError={(e) => handleImageError(e, player.name)}
                         />
                       </div>
-                      
+
                       <div className="flex-1">
                         <div className="font-bold">{player.name}</div>
                         <div className="text-sm text-gray-400">
                           {player.role} • {player.country}
                         </div>
                       </div>
-                      
+
                       <div className="text-right">
                         <div className="text-sm text-gray-400">Retained for</div>
                         <div className="text-lg font-bold text-green-400">
                           ₹{player.retainedAmount?.toFixed(2)}Cr
                         </div>
                       </div>
-                      
+
                       {/* Undo Retention Button */}
                       <motion.button
                         whileHover={{ scale: 1.1 }}
@@ -460,7 +460,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                     </div>
                   </motion.div>
                 ))}
-                
+
                 {getRetainedPlayers(selectedTeam).length === 0 && (
                   <div className="text-center py-8 text-gray-400">
                     <Crown className="w-12 h-12 mx-auto mb-2 opacity-50" />
@@ -505,7 +505,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                     disabled={!canConfirmTeam(selectedTeam)}
                     className="bg-green-500/20 hover:bg-green-500/30 border-2 border-green-500/50 px-8 py-4 rounded-xl font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-✓ Confirm Team Retentions
+                    ✓ Confirm Team Retentions
                   </motion.button>
                 )}
                 {teamRetentionStatus[selectedTeam] === 'confirmed' && (
@@ -555,22 +555,21 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
             {teams.map((team) => {
               const status = teamRetentionStatus[team.name] || 'pending'
               const retainedCount = getRetainedPlayers(team.name).length
-              
+
               return (
                 <div
                   key={team.id}
-                  className={`p-4 rounded-xl border-2 ${
-                    status === 'confirmed' 
-                      ? 'border-green-400 bg-green-500/10' 
+                  className={`p-4 rounded-xl border-2 ${status === 'confirmed'
+                      ? 'border-green-400 bg-green-500/10'
                       : 'border-gray-400 bg-gray-500/10'
-                  }`}
+                    }`}
                 >
                   <div className="flex flex-col items-center gap-2">
                     <div className="relative">
-                      <img 
-                        src={team.logo} 
-                        alt={team.name} 
-                        className="w-10 h-10 object-contain" 
+                      <img
+                        src={getTeamLogoUrl(team.name)}
+                        alt={team.name}
+                        className="w-10 h-10 object-contain"
                       />
                       {status === 'confirmed' && (
                         <div className="absolute -top-1 -right-1 bg-green-500 rounded-full w-4 h-4 flex items-center justify-center">
@@ -582,13 +581,12 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                     <div className="text-xs text-gray-400">
                       {retainedCount} retained
                     </div>
-                    <div className={`text-xs font-bold ${
-                      status === 'confirmed' 
-                        ? 'text-green-400' 
+                    <div className={`text-xs font-bold ${status === 'confirmed'
+                        ? 'text-green-400'
                         : 'text-gray-400'
-                    }`}>
-                      {status === 'confirmed' 
-                        ? '✓ Confirmed' 
+                      }`}>
+                      {status === 'confirmed'
+                        ? '✓ Confirmed'
                         : 'Pending'
                       }
                     </div>
@@ -619,7 +617,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
               .filter(team => teamRetentionStatus[team.name] === 'confirmed')
               .map((team) => {
                 const retainedPlayers = getRetainedPlayers(team.name)
-                
+
                 return (
                   <motion.div
                     key={team.id}
@@ -634,13 +632,13 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                   >
                     {/* Team Header */}
                     <div className="flex items-center gap-3 mb-4">
-                      <img 
-                        src={team.logo} 
-                        alt={team.name} 
-                        className="w-8 h-8 object-contain" 
+                      <img
+                        src={getTeamLogoUrl(team.name)}
+                        alt={team.name}
+                        className="w-8 h-8 object-contain"
                       />
                       <div className="flex-1">
-                        <div 
+                        <div
                           className="font-bold text-lg"
                           style={{ color: team.color }}
                         >
@@ -679,7 +677,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                               </div>
                             </div>
                             <div className="text-right">
-                              <div 
+                              <div
                                 className="font-bold text-sm"
                                 style={{ color: team.color }}
                               >
@@ -700,7 +698,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                     <div className="mt-4 pt-3 border-t border-white/10">
                       <div className="grid grid-cols-2 gap-4 text-center">
                         <div>
-                          <div 
+                          <div
                             className="text-lg font-bold"
                             style={{ color: team.color }}
                           >
@@ -709,7 +707,7 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
                           <div className="text-xs text-gray-400">RTM Available</div>
                         </div>
                         <div>
-                          <div 
+                          <div
                             className="text-lg font-bold"
                             style={{ color: team.color }}
                           >
@@ -844,10 +842,10 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
             {/* Team Info */}
             <div className="bg-white/5 p-4 rounded-xl mb-6">
               <div className="flex items-center gap-3">
-                <img 
-                  src={teams.find(t => t.name === playerToRetain.team)?.logo} 
-                  alt={playerToRetain.team} 
-                  className="w-8 h-8 object-contain" 
+                <img
+                  src={teams.find(t => t.name === playerToRetain.team)?.logo}
+                  alt={playerToRetain.team}
+                  className="w-8 h-8 object-contain"
                 />
                 <div>
                   <div className="text-sm text-gray-400">Retaining for</div>
@@ -896,44 +894,44 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
             >
               {/* Pulsing rings */}
               <motion.div
-                animate={{ 
+                animate={{
                   scale: [1, 1.5, 1],
                   opacity: [0.8, 0.2, 0.8]
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
                 className="absolute inset-0 rounded-full border-8"
-                style={{ 
+                style={{
                   borderColor: retentionAnimationData.team?.color || '#A855F7',
                   transform: 'scale(2)'
                 }}
               />
-              
+
               <motion.div
-                animate={{ 
+                animate={{
                   scale: [1, 1.3, 1],
                   opacity: [0.6, 0.1, 0.6]
                 }}
                 transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
                 className="absolute inset-0 rounded-full border-8"
-                style={{ 
+                style={{
                   borderColor: retentionAnimationData.team?.color || '#A855F7',
                   transform: 'scale(1.5)'
                 }}
               />
 
               {/* Team Logo */}
-              <div 
+              <div
                 className="w-32 h-32 rounded-full flex items-center justify-center border-8 relative z-10"
-                style={{ 
+                style={{
                   borderColor: retentionAnimationData.team?.color || '#A855F7',
                   background: `linear-gradient(135deg, ${retentionAnimationData.team?.color || '#A855F7'}40, ${retentionAnimationData.team?.color || '#A855F7'}20)`,
                   boxShadow: `0 0 60px ${retentionAnimationData.team?.color || '#A855F7'}80`
                 }}
               >
-                <img 
-                  src={retentionAnimationData.team?.logo} 
-                  alt={retentionAnimationData.team?.name} 
-                  className="w-20 h-20 object-contain" 
+                <img
+                  src={retentionAnimationData.team?.logo}
+                  alt={retentionAnimationData.team?.name}
+                  className="w-20 h-20 object-contain"
                 />
               </div>
             </motion.div>
@@ -945,9 +943,9 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
               transition={{ delay: 0.5, duration: 0.8 }}
               className="mb-6"
             >
-              <div 
+              <div
                 className="w-40 h-40 rounded-full overflow-hidden mx-auto border-8"
-                style={{ 
+                style={{
                   borderColor: retentionAnimationData.team?.color || '#A855F7',
                   boxShadow: `0 0 40px ${retentionAnimationData.team?.color || '#A855F7'}60`
                 }}
@@ -969,28 +967,28 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
               className="text-center"
             >
               <motion.div
-                animate={{ 
+                animate={{
                   scale: [1, 1.1, 1],
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
                 className="text-6xl font-black mb-4"
-                style={{ 
+                style={{
                   color: retentionAnimationData.team?.color || '#A855F7',
                   textShadow: `0 0 30px ${retentionAnimationData.team?.color || '#A855F7'}60`
                 }}
               >
                 {userRole === 'admin' ? 'RETAINED!' : 'SUBMITTED!'}
               </motion.div>
-              
+
               <div className="text-4xl font-bold text-white mb-2">
                 {retentionAnimationData.player.name}
               </div>
-              
+
               <div className="text-2xl text-gray-300 mb-4">
                 {retentionAnimationData.team?.name}
               </div>
-              
-              <div 
+
+              <div
                 className="text-3xl font-black"
                 style={{ color: retentionAnimationData.team?.color || '#A855F7' }}
               >
@@ -1013,26 +1011,26 @@ export default function RetentionPhase({ onBack, userRole = 'admin', userTeam }:
             {[...Array(8)].map((_, i) => (
               <motion.div
                 key={i}
-                initial={{ 
-                  x: 0, 
-                  y: 0, 
+                initial={{
+                  x: 0,
+                  y: 0,
                   scale: 0,
                   opacity: 0
                 }}
-                animate={{ 
+                animate={{
                   x: Math.cos(i * 45 * Math.PI / 180) * 200,
                   y: Math.sin(i * 45 * Math.PI / 180) * 200,
                   scale: [0, 1, 0],
                   opacity: [0, 1, 0]
                 }}
-                transition={{ 
+                transition={{
                   delay: 1.2 + i * 0.1,
                   duration: 2,
                   repeat: Infinity,
                   repeatDelay: 1
                 }}
                 className="absolute w-4 h-4 rounded-full"
-                style={{ 
+                style={{
                   background: retentionAnimationData.team?.color || '#A855F7',
                   left: '50%',
                   top: '50%'

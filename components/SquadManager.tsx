@@ -6,6 +6,7 @@ import { Users, Star, ArrowRight, Globe, Crown, Zap, UserPlus } from 'lucide-rea
 import { useAuctionStore } from '@/store/auctionStore'
 import { Player } from '@/types'
 import { getPlayerImage, handleImageError } from '@/utils/playerImage'
+import { getTeamLogoUrl } from '@/utils/teamLogos'
 
 interface SquadManagerProps {
   teamName: string
@@ -21,7 +22,7 @@ interface SquadState {
 
 export default function SquadManager({ teamName }: SquadManagerProps) {
   const { teams } = useAuctionStore()
-  
+
   const team = teams.find(t => t.name === teamName)
   const teamPlayers = team?.players || []
 
@@ -53,7 +54,7 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
       alert('Playing 11 is full! Maximum 11 players allowed.')
       return
     }
-    
+
     if (to === 'impact' && squad.impact.length >= 1) {
       alert('Impact player slot is full! Maximum 1 impact player allowed.')
       return
@@ -95,10 +96,10 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
     return roles
   }
 
-  const PlayerCard = ({ player, category, showMoveButtons = true }: { 
-    player: Player, 
+  const PlayerCard = ({ player, category, showMoveButtons = true }: {
+    player: Player,
     category: SquadCategory,
-    showMoveButtons?: boolean 
+    showMoveButtons?: boolean
   }) => (
     <motion.div
       layout
@@ -121,7 +122,7 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
             </div>
           )}
         </div>
-        
+
         <div className="flex-1 min-w-0">
           <div className="font-bold text-sm truncate">{player.name}</div>
           <div className="text-xs text-gray-400">{player.role}</div>
@@ -177,7 +178,7 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
       {/* Squad Header */}
       <div className="glass-effect p-6 rounded-2xl">
         <div className="flex items-center gap-4 mb-4">
-          <img src={team.logo} alt={team.name} className="w-16 h-16 object-contain" />
+          <img src={getTeamLogoUrl(team.name)} alt={team.name} className="w-16 h-16 object-contain" />
           <div>
             <h2 className="text-2xl font-bold">{team.name}</h2>
             <p className="text-gray-400">Squad Management</p>
@@ -187,38 +188,34 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
         {/* Squad Stats */}
         <div className="grid grid-cols-5 gap-4">
           <div className="text-center">
-            <div className={`text-2xl font-bold ${
-              squad.playing11.length === 11 ? 'text-green-400' : 
-              squad.playing11.length > 8 ? 'text-yellow-400' : 'text-gray-400'
-            }`}>
+            <div className={`text-2xl font-bold ${squad.playing11.length === 11 ? 'text-green-400' :
+                squad.playing11.length > 8 ? 'text-yellow-400' : 'text-gray-400'
+              }`}>
               {squad.playing11.length}/11
             </div>
             <div className="text-xs text-gray-400">Playing 11</div>
           </div>
           <div className="text-center">
-            <div className={`text-2xl font-bold ${
-              squad.impact.length === 1 ? 'text-yellow-400' : 'text-gray-400'
-            }`}>
+            <div className={`text-2xl font-bold ${squad.impact.length === 1 ? 'text-yellow-400' : 'text-gray-400'
+              }`}>
               {squad.impact.length}/1
             </div>
             <div className="text-xs text-gray-400">Impact Player</div>
           </div>
           <div className="text-center">
-            <div className={`text-2xl font-bold ${
-              overseasCount >= 8 ? 'text-red-400' : 
-              overseasCount >= 6 ? 'text-orange-400' : 
-              overseasCount >= 4 ? 'text-yellow-400' : 'text-blue-400'
-            }`}>
+            <div className={`text-2xl font-bold ${overseasCount >= 8 ? 'text-red-400' :
+                overseasCount >= 6 ? 'text-orange-400' :
+                  overseasCount >= 4 ? 'text-yellow-400' : 'text-blue-400'
+              }`}>
               {overseasCount}/8
             </div>
             <div className="text-xs text-gray-400">Overseas</div>
           </div>
           <div className="text-center">
-            <div className={`text-2xl font-bold ${
-              teamPlayers.length >= 25 ? 'text-red-400' : 
-              teamPlayers.length >= 20 ? 'text-orange-400' : 
-              teamPlayers.length >= 15 ? 'text-yellow-400' : 'text-purple-400'
-            }`}>
+            <div className={`text-2xl font-bold ${teamPlayers.length >= 25 ? 'text-red-400' :
+                teamPlayers.length >= 20 ? 'text-orange-400' :
+                  teamPlayers.length >= 15 ? 'text-yellow-400' : 'text-purple-400'
+              }`}>
               {teamPlayers.length}/25
             </div>
             <div className="text-xs text-gray-400">Total Squad</div>
@@ -242,7 +239,7 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
               ))}
             </div>
           </div>
-          
+
           <div className="bg-white/5 p-4 rounded-xl">
             <h4 className="text-sm font-bold text-gray-300 mb-3">Squad Limits</h4>
             <div className="space-y-2 text-sm">
@@ -260,9 +257,8 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">Overseas (Playing 11):</span>
-                <span className={`font-bold ${
-                  squad.playing11.filter(p => p.country !== 'India').length > 4 ? 'text-red-400' : 'text-green-400'
-                }`}>
+                <span className={`font-bold ${squad.playing11.filter(p => p.country !== 'India').length > 4 ? 'text-red-400' : 'text-green-400'
+                  }`}>
                   {squad.playing11.filter(p => p.country !== 'India').length}/4
                 </span>
               </div>
@@ -290,7 +286,7 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
             </div>
           )}
         </div>
-        
+
         {squad.playing11.length === 0 ? (
           <div className="text-center py-8 text-gray-400">
             <Users className="w-12 h-12 mx-auto mb-2 opacity-50" />
@@ -300,7 +296,7 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
         ) : (
           <div className="space-y-4">
             {/* Role-wise organization */}
-            {Object.entries(getPlayersByRole(squad.playing11)).map(([role, players]) => 
+            {Object.entries(getPlayersByRole(squad.playing11)).map(([role, players]) =>
               players.length > 0 && (
                 <div key={role}>
                   <div className="text-sm font-bold text-gray-300 mb-2">{role}s ({players.length})</div>
@@ -330,7 +326,7 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
             <div>Strategic game changer</div>
           </div>
         </div>
-        
+
         {squad.impact.length === 0 ? (
           <div className="text-center py-6 text-gray-400">
             <Zap className="w-8 h-8 mx-auto mb-2 opacity-50" />
@@ -354,7 +350,7 @@ export default function SquadManager({ teamName }: SquadManagerProps) {
           <UserPlus className="w-5 h-5 text-gray-400" />
           <h3 className="text-xl font-bold text-gray-400">Squad Players ({squad.substitutes.length})</h3>
         </div>
-        
+
         {squad.substitutes.length === 0 ? (
           <div className="text-center py-6 text-gray-400">
             <Users className="w-8 h-8 mx-auto mb-2 opacity-50" />

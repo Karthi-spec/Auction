@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Shield, X } from 'lucide-react'
 import { useAuctionStore } from '@/store/auctionStore'
 import { getPlayerImage, handleImageError } from '@/utils/playerImage'
+import { getTeamLogoUrl } from '@/utils/teamLogos'
+import { getAssetUrl } from '@/utils/appPaths'
 
 export default function RTMModal() {
   const { showRTMModal, rtmTeam, currentPlayer, useRTM, setShowRTMModal } = useAuctionStore()
@@ -34,15 +36,15 @@ export default function RTMModal() {
             exit={{ scale: 0.8, y: 50 }}
             className="relative max-w-2xl w-full mx-4"
           >
-            <div 
+            <div
               className="glass-effect p-8 rounded-3xl border-4 relative overflow-hidden"
-              style={{ 
+              style={{
                 borderColor: rtmTeam.color,
                 boxShadow: `0 0 60px ${rtmTeam.color}80`
               }}
             >
               {/* Background glow */}
-              <div 
+              <div
                 className="absolute inset-0 opacity-20"
                 style={{ background: rtmTeam.color }}
               />
@@ -54,17 +56,17 @@ export default function RTMModal() {
                     animate={{ rotate: [0, 10, -10, 0] }}
                     transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 2 }}
                   >
-                    <img 
-                      src="/rtm-card.svg" 
+                    <img
+                      src={getAssetUrl('/rtm-card.svg')}
                       alt="RTM Card"
                       className="w-32 h-32 mx-auto mb-4 object-contain"
-                      style={{ 
+                      style={{
                         filter: `drop-shadow(0 0 20px ${rtmTeam.color})`
                       }}
                     />
                   </motion.div>
-                  
-                  <h2 
+
+                  <h2
                     className="text-4xl font-bold mb-2"
                     style={{ color: rtmTeam.color }}
                   >
@@ -75,16 +77,16 @@ export default function RTMModal() {
 
                 {/* Team Info */}
                 <div className="flex items-center justify-center gap-4 mb-6">
-                  <div 
+                  <div
                     className="w-24 h-24 rounded-full flex items-center justify-center overflow-hidden"
-                    style={{ 
+                    style={{
                       background: `linear-gradient(135deg, ${rtmTeam.color}40, ${rtmTeam.color}80)`,
                       boxShadow: `0 0 30px ${rtmTeam.color}`
                     }}
                   >
-                    <img 
-                      src={rtmTeam.logo} 
-                      alt={rtmTeam.name} 
+                    <img
+                      src={getTeamLogoUrl(rtmTeam.name)}
+                      alt={rtmTeam.name}
                       className="w-20 h-20 object-contain"
                     />
                   </div>
@@ -123,13 +125,13 @@ export default function RTMModal() {
                     whileTap={{ scale: 0.95 }}
                     onClick={handleUseRTM}
                     className="p-6 rounded-xl font-bold text-lg"
-                    style={{ 
+                    style={{
                       background: `linear-gradient(135deg, ${rtmTeam.color}, ${rtmTeam.color}CC)`,
                       boxShadow: `0 0 20px ${rtmTeam.color}60`
                     }}
                   >
-                    <img 
-                      src="/rtm-card.svg" 
+                    <img
+                      src={getAssetUrl('/rtm-card.svg')}
                       alt="RTM"
                       className="w-8 h-8 mx-auto mb-2 object-contain"
                     />

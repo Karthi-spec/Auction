@@ -3,12 +3,13 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, SkipForward, Play } from 'lucide-react'
+import { getAssetUrl } from '@/utils/appPaths'
 // Removed TeamIntroTracker for frontend-only version
 
 // Simple intro tracker replacement for frontend-only version
 const TeamIntroTracker = {
   hasShownIntro: (teamName: string) => false,
-  markIntroShown: (teamName: string) => {}
+  markIntroShown: (teamName: string) => { }
 }
 
 interface TeamWelcomeIntroProps {
@@ -25,30 +26,30 @@ export default function TeamWelcomeIntro({ teamName, onComplete, show }: TeamWel
 
   // Team data with colors and short names
   const teamData: { [key: string]: { color: string; shortName: string; logo: string } } = {
-    'Mumbai Indians': { color: '#004BA0', shortName: 'MI', logo: '/logos/Original Mumbai Indians PNG-SVG File Download Free Download.png' },
-    'Chennai Super Kings': { color: '#F7C52D', shortName: 'CSK', logo: '/logos/Original Chennai Super Fun Logo PNG - SVG File Download Free Download.png' },
-    'Royal Challengers Bangalore': { color: '#D50000', shortName: 'RCB', logo: '/logos/rcb-logo-png_seeklogo-531612.png' },
-    'Kolkata Knight Riders': { color: '#3A225D', shortName: 'KKR', logo: '/logos/Original Kolkata Knight Riders PNG-SVG File Download Free Download.png' },
-    'Delhi Capitals': { color: '#282968', shortName: 'DC', logo: '/logos/delhi-capitals.png' },
-    'Punjab Kings': { color: '#ED1B24', shortName: 'PBKS', logo: '/logos/Original Punjab Kings PNG-SVG File Download Free Download.png' },
-    'Rajasthan Royals': { color: '#E91E63', shortName: 'RR', logo: '/logos/Original Rajasthan Royals Logo PNG-SVG File Download Free Download.png' },
-    'Sunrisers Hyderabad': { color: '#FF822A', shortName: 'SRH', logo: '/logos/Original Sunrisers Hyderabad PNG-SVG File Download Free Download.png' },
-    'Gujarat Titans': { color: '#1C2841', shortName: 'GT', logo: '/logos/Original Gujarat Titans Logo PNG-SVG File Download Free Download.png' },
-    'Lucknow Super Giants': { color: '#00A8CC', shortName: 'LSG', logo: '/logos/Original Lucknow Super Giants PNG-SVG File Download Free Download.png' }
+    'Mumbai Indians': { color: '#004BA0', shortName: 'MI', logo: getAssetUrl('/logos/Original Mumbai Indians PNG-SVG File Download Free Download.png') },
+    'Chennai Super Kings': { color: '#F7C52D', shortName: 'CSK', logo: getAssetUrl('/logos/Original Chennai Super Fun Logo PNG - SVG File Download Free Download.png') },
+    'Royal Challengers Bangalore': { color: '#D50000', shortName: 'RCB', logo: getAssetUrl('/logos/rcb-logo-png_seeklogo-531612.png') },
+    'Kolkata Knight Riders': { color: '#3A225D', shortName: 'KKR', logo: getAssetUrl('/logos/Original Kolkata Knight Riders PNG-SVG File Download Free Download.png') },
+    'Delhi Capitals': { color: '#282968', shortName: 'DC', logo: getAssetUrl('/logos/delhi-capitals.png') },
+    'Punjab Kings': { color: '#ED1B24', shortName: 'PBKS', logo: getAssetUrl('/logos/Original Punjab Kings PNG-SVG File Download Free Download.png') },
+    'Rajasthan Royals': { color: '#E91E63', shortName: 'RR', logo: getAssetUrl('/logos/Original Rajasthan Royals Logo PNG-SVG File Download Free Download.png') },
+    'Sunrisers Hyderabad': { color: '#FF822A', shortName: 'SRH', logo: getAssetUrl('/logos/Original Sunrisers Hyderabad PNG-SVG File Download Free Download.png') },
+    'Gujarat Titans': { color: '#1C2841', shortName: 'GT', logo: getAssetUrl('/logos/Original Gujarat Titans Logo PNG-SVG File Download Free Download.png') },
+    'Lucknow Super Giants': { color: '#00A8CC', shortName: 'LSG', logo: getAssetUrl('/logos/Original Lucknow Super Giants PNG-SVG File Download Free Download.png') }
   }
 
   // Team video mapping
   const teamVideos: { [key: string]: string } = {
-    'Mumbai Indians': '/team-videos/mumbai-indians.mp4',
-    'Chennai Super Kings': '/team-videos/chennai-super-kings.mp4',
-    'Royal Challengers Bangalore': '/team-videos/royal-challengers-bangalore.mp4',
-    'Kolkata Knight Riders': '/team-videos/kolkata-knight-riders.mp4',
-    'Delhi Capitals': '/team-videos/delhi-capitals.mp4',
-    'Punjab Kings': '/team-videos/punjab-kings.mp4',
-    'Rajasthan Royals': '/team-videos/rajasthan-royals.mp4',
-    'Sunrisers Hyderabad': '/team-videos/sunrisers-hyderabad.mp4',
-    'Gujarat Titans': '/team-videos/gujarat-titans.mp4',
-    'Lucknow Super Giants': '/team-videos/lucknow-super-giants.mp4'
+    'Mumbai Indians': getAssetUrl('/team-videos/mumbai-indians.mp4'),
+    'Chennai Super Kings': getAssetUrl('/team-videos/chennai-super-kings.mp4'),
+    'Royal Challengers Bangalore': getAssetUrl('/team-videos/royal-challengers-bangalore.mp4'),
+    'Kolkata Knight Riders': getAssetUrl('/team-videos/kolkata-knight-riders.mp4'),
+    'Delhi Capitals': getAssetUrl('/team-videos/delhi-capitals.mp4'),
+    'Punjab Kings': getAssetUrl('/team-videos/punjab-kings.mp4'),
+    'Rajasthan Royals': getAssetUrl('/team-videos/rajasthan-royals.mp4'),
+    'Sunrisers Hyderabad': getAssetUrl('/team-videos/sunrisers-hyderabad.mp4'),
+    'Gujarat Titans': getAssetUrl('/team-videos/gujarat-titans.mp4'),
+    'Lucknow Super Giants': getAssetUrl('/team-videos/lucknow-super-giants.mp4')
   }
 
   const team = teamData[teamName]
@@ -59,15 +60,15 @@ export default function TeamWelcomeIntro({ teamName, onComplete, show }: TeamWel
     if (show && teamName) {
       const hasShown = false // Always show intro in frontend-only version
       setHasShownIntro(hasShown)
-      
+
       // Always show welcome animation first, regardless of previous visits
       setCurrentPhase('welcome')
-      
+
       // Auto-progress to video after welcome animation
       const welcomeTimer = setTimeout(() => {
         setCurrentPhase('video')
       }, 4000) // 4 seconds for welcome animation
-      
+
       return () => clearTimeout(welcomeTimer)
     }
   }, [show, teamName])
@@ -182,7 +183,7 @@ export default function TeamWelcomeIntro({ teamName, onComplete, show }: TeamWel
               >
                 WELCOME
               </motion.h1>
-              
+
               <motion.div
                 initial={{ opacity: 0, x: -100 }}
                 animate={{ opacity: 1, x: 0 }}

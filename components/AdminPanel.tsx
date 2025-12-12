@@ -20,16 +20,18 @@ import SquadsView from './SquadsView'
 import AuctionPool from './AuctionPool'
 import AddPlayerModal from './AddPlayerModal'
 import { getPlayerImage, handleImageError } from '@/utils/playerImage'
+import { getTeamLogoUrl } from '@/utils/teamLogos'
+import { getAssetUrl } from '@/utils/appPaths'
 
 interface AdminPanelProps {
   onBack: () => void
 }
 
 export default function AdminPanel({ onBack }: AdminPanelProps) {
-  const { 
-    currentPlayer, 
-    players, 
-    teams, 
+  const {
+    currentPlayer,
+    players,
+    teams,
     isAuctionActive,
     startAuction,
     pauseAuction,
@@ -169,7 +171,7 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                 .map((team, idx) => {
                   const retainedPlayers = team.players.filter(p => p.status === 'retained')
                   const totalSpent = retainedPlayers.reduce((sum, p) => sum + (p.retainedAmount || 0), 0)
-                  
+
                   return (
                     <motion.div
                       key={team.id}
@@ -184,7 +186,7 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                           className="w-16 h-16 rounded-full flex items-center justify-center overflow-hidden"
                           style={{ background: `${team.color}20` }}
                         >
-                          <img src={team.logo} alt={team.name} className="w-14 h-14 object-contain" />
+                          <img src={getTeamLogoUrl(team.name)} alt={team.name} className="w-14 h-14 object-contain" />
                         </div>
                         <div className="flex-1">
                           <h2 className="text-2xl font-bold" style={{ color: team.color }}>
@@ -224,8 +226,8 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                                   <div className="font-bold text-lg flex items-center gap-2">
                                     {player.name}
                                     <span className="inline-flex items-center gap-1 bg-purple-500/20 text-purple-400 px-2 py-0.5 rounded-full text-xs">
-                                      <img 
-                                        src="/retain-card.svg" 
+                                      <img
+                                        src={getAssetUrl('/retain-card.svg')}
                                         alt="RETAIN"
                                         className="w-4 h-2.5 object-contain"
                                       />
@@ -371,26 +373,26 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
         team={useAuctionStore(state => state.soldAnimationData?.team || null)}
         playerName={useAuctionStore(state => state.soldAnimationData?.playerName || '')}
         amount={useAuctionStore(state => state.soldAnimationData?.amount || 0)}
-        onComplete={() => {}}
+        onComplete={() => { }}
       />
       <RTMAnimation
         show={useAuctionStore(state => state.showRTMAnimation)}
         team={useAuctionStore(state => state.rtmAnimationData?.team || null)}
         playerName={useAuctionStore(state => state.rtmAnimationData?.playerName || '')}
         amount={useAuctionStore(state => state.rtmAnimationData?.amount || 0)}
-        onComplete={() => {}}
+        onComplete={() => { }}
       />
       <RetainedAnimation
         show={useAuctionStore(state => state.showRetainedAnimation)}
         team={useAuctionStore(state => state.retainedAnimationData?.team || null)}
         playerName={useAuctionStore(state => state.retainedAnimationData?.playerName || '')}
         amount={useAuctionStore(state => state.retainedAnimationData?.amount || 0)}
-        onComplete={() => {}}
+        onComplete={() => { }}
       />
       <UnsoldAnimation
         show={useAuctionStore(state => state.showUnsoldAnimation)}
         playerName={useAuctionStore(state => state.unsoldAnimationData?.playerName || '')}
-        onComplete={() => {}}
+        onComplete={() => { }}
       />
 
       {/* Auction Configuration Modal */}
@@ -449,8 +451,8 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
               {/* RTM Settings */}
               <div className="glass-effect p-6 rounded-2xl">
                 <div className="flex items-center gap-3 mb-4">
-                  <img 
-                    src="/rtm-card.svg" 
+                  <img
+                    src={getAssetUrl('/rtm-card.svg')}
                     alt="RTM"
                     className="w-6 h-6 object-contain"
                   />
@@ -490,8 +492,8 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                     <span>Max Retentions: <strong>{maxRetentions}</strong></span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <img 
-                      src="/rtm-card.svg" 
+                    <img
+                      src={getAssetUrl('/rtm-card.svg')}
                       alt="RTM"
                       className="w-4 h-4 object-contain"
                     />
@@ -568,16 +570,16 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                     >
                       <div className="flex items-start gap-4 mb-4">
                         {team && (
-                          <div 
+                          <div
                             className="w-16 h-16 rounded-full flex items-center justify-center flex-shrink-0"
-                            style={{ 
+                            style={{
                               background: `linear-gradient(135deg, ${team.color}40, ${team.color}80)`,
                               boxShadow: `0 0 20px ${team.color}40`
                             }}
                           >
-                            <img 
-                              src={team.logo} 
-                              alt={team.name} 
+                            <img
+                              src={getTeamLogoUrl(team.name)}
+                              alt={team.name}
                               className="w-12 h-12 object-contain"
                             />
                           </div>
@@ -602,7 +604,7 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                           )}
                         </div>
                       </div>
-                      
+
                       <div className="grid grid-cols-2 gap-3">
                         <motion.button
                           whileHover={{ scale: 1.05 }}
@@ -693,8 +695,8 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
             <div className="space-y-2 max-h-[60vh] overflow-y-auto">
               {players
                 .filter(p => p.status === 'available')
-                .filter(p => 
-                  playerSearch === '' || 
+                .filter(p =>
+                  playerSearch === '' ||
                   p.name.toLowerCase().includes(playerSearch.toLowerCase()) ||
                   p.role.toLowerCase().includes(playerSearch.toLowerCase()) ||
                   p.country.toLowerCase().includes(playerSearch.toLowerCase())
@@ -705,11 +707,10 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => handleSetCurrentPlayer(player)}
-                    className={`w-full p-4 rounded-xl border-2 transition-all text-left ${
-                      currentPlayer?.id === player.id
-                        ? 'border-slate-400 bg-slate-500/20'
-                        : 'border-white/10 hover:border-slate-400/50 bg-white/5 hover:bg-white/10'
-                    }`}
+                    className={`w-full p-4 rounded-xl border-2 transition-all text-left ${currentPlayer?.id === player.id
+                      ? 'border-slate-400 bg-slate-500/20'
+                      : 'border-white/10 hover:border-slate-400/50 bg-white/5 hover:bg-white/10'
+                      }`}
                   >
                     <div className="flex items-center gap-4">
                       {/* Player Image */}
@@ -721,7 +722,7 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                           onError={(e) => handleImageError(e, player.name)}
                         />
                       </div>
-                      
+
                       {/* Player Info */}
                       <div className="flex-1">
                         <div className="text-xl font-bold">{player.name}</div>
@@ -732,7 +733,7 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                           {player.set || 'Uncategorized'}
                         </div>
                       </div>
-                      
+
                       {/* Price */}
                       <div className="text-right">
                         <div className="text-sm text-gray-400">Base Price</div>
@@ -785,12 +786,12 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                   style={{ borderColor: team.color, background: `${team.color}20` }}
                 >
                   <div className="flex items-center gap-3">
-                    <img src={team.logo} alt={team.name} className="w-12 h-12 object-contain" />
+                    <img src={getTeamLogoUrl(team.name)} alt={team.name} className="w-12 h-12 object-contain" />
                     <div className="text-left flex-1">
                       <div className="font-bold">{team.name}</div>
                       <div className="inline-flex items-center gap-1 text-sm text-gray-400">
-                        <img 
-                          src="/rtm-card.svg" 
+                        <img
+                          src={getAssetUrl('/rtm-card.svg')}
                           alt="RTM"
                           className="w-3 h-3 object-contain"
                         />
@@ -864,442 +865,398 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
 
 
       <div className="min-h-screen p-4 md:p-8">
-      {/* Header */}
-      <motion.div
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="flex items-center justify-between mb-8"
-      >
-        <button
-          onClick={onBack}
-          className="glass-effect px-6 py-3 rounded-xl hover:bg-white/10 transition-all flex items-center gap-2"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Exit
-        </button>
-
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2">
-            <Settings className="w-6 h-6 text-slate-300" />
-            <h1 className="text-3xl font-bold text-slate-200">Admin Control Panel</h1>
-          </div>
-          
-          {/* Live Connection Status */}
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {/* Teams overview removed for frontend-only */}}
-            className="glass-effect px-4 py-2 rounded-xl hover:bg-white/10 transition-all flex items-center gap-3"
-          >
-            <div className="flex items-center gap-2">
-              <motion.div
-                animate={{ scale: [1, 1.2, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-3 h-3 bg-green-400 rounded-full"
-              />
-              <span className="text-sm font-bold text-green-400">LIVE</span>
-            </div>
-            <div className="text-sm text-gray-300">
-              <span className="font-bold text-blue-400">{teams.length}</span> Teams Available
-            </div>
-          </motion.button>
-        </div>
-      </motion.div>
-
-      {/* All Teams Confirmed Notification */}
-      {retentionPhaseActive && teams.every(team => teamRetentionStatus[team.name] === 'confirmed') && (
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20, scale: 0.95 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          className="mb-8"
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          className="flex items-center justify-between mb-8"
         >
-          <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 border-2 border-green-500/50 rounded-2xl p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.2, 1],
-                    rotate: [0, 360]
-                  }}
-                  transition={{ 
-                    duration: 2, 
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="bg-green-500 rounded-full p-3"
-                >
-                  <Check className="w-8 h-8 text-white" />
-                </motion.div>
-                <div>
-                  <h3 className="text-2xl font-bold text-green-400">🎉 All Teams Confirmed!</h3>
-                  <p className="text-gray-300 text-lg">
-                    All {teams.length} teams have completed their retention decisions. Ready to start the auction!
-                  </p>
-                </div>
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  completeRetentionPhase()
-                  // The start button will become available after retention phase completes
-                }}
-                className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-8 py-4 rounded-xl font-bold text-xl flex items-center gap-3 shadow-2xl"
-                style={{
-                  boxShadow: '0 0 30px rgba(34, 197, 94, 0.5)'
-                }}
-              >
-                <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                >
-                  🚀
-                </motion.div>
-                START AUCTION
-              </motion.button>
+          <button
+            onClick={onBack}
+            className="glass-effect px-6 py-3 rounded-xl hover:bg-white/10 transition-all flex items-center gap-2"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            Exit
+          </button>
+
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <Settings className="w-6 h-6 text-slate-300" />
+              <h1 className="text-3xl font-bold text-slate-200">Admin Control Panel</h1>
             </div>
+
+            {/* Live Connection Status */}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {/* Teams overview removed for frontend-only */ }}
+              className="glass-effect px-4 py-2 rounded-xl hover:bg-white/10 transition-all flex items-center gap-3"
+            >
+              <div className="flex items-center gap-2">
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="w-3 h-3 bg-green-400 rounded-full"
+                />
+                <span className="text-sm font-bold text-green-400">LIVE</span>
+              </div>
+              <div className="text-sm text-gray-300">
+                <span className="font-bold text-blue-400">{teams.length}</span> Teams Available
+              </div>
+            </motion.button>
           </div>
         </motion.div>
-      )}
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Auction Controls */}
-        <div className="lg:col-span-2 space-y-6">
+        {/* All Teams Confirmed Notification */}
+        {retentionPhaseActive && teams.every(team => teamRetentionStatus[team.name] === 'confirmed') && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="glass-effect p-6 rounded-2xl"
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            className="mb-8"
           >
-            <h2 className="text-2xl font-bold mb-6">Auction Controls</h2>
-            
-            <div className="grid grid-cols-3 gap-4 mb-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={
-                  isAuctionActive 
-                    ? pauseAuction 
-                    : retentionPhaseComplete 
-                    ? startAuction 
-                    : limitsConfigured 
-                    ? () => {} // Retention phase is handled by separate component
-                    : () => setShowAuctionConfig(true)
-                }
-                disabled={limitsConfigured && !retentionPhaseComplete && !isAuctionActive}
-                className={`p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 ${
-                  isAuctionActive 
-                    ? 'bg-red-500/20 hover:bg-red-500/30' 
-                    : retentionPhaseComplete
-                    ? 'bg-green-500/20 hover:bg-green-500/30'
-                    : limitsConfigured
-                    ? 'bg-gray-500/20 cursor-not-allowed opacity-50'
-                    : 'bg-green-500/20 hover:bg-green-500/30'
-                } ${limitsConfigured && !retentionPhaseComplete && !isAuctionActive ? 'disabled:opacity-50 disabled:cursor-not-allowed' : ''}`}
-              >
-                {isAuctionActive ? (
-                  <>
-                    <Pause className="w-8 h-8" />
-                    Pause
-                  </>
-                ) : retentionPhaseComplete ? (
-                  <>
-                    <Play className="w-8 h-8" />
-                    Start Auction
-                  </>
-                ) : limitsConfigured ? (
-                  <>
-                    <Heart className="w-8 h-8 text-purple-400" />
-                    Retention Phase
-                  </>
-                ) : (
-                  <>
-                    <Settings className="w-8 h-8" />
-                    Retention Configuration
-                  </>
-                )}
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleSold}
-                disabled={!currentPlayer?.currentBidder}
-                className="bg-green-500/20 hover:bg-green-500/30 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <Gavel className="w-8 h-8 text-green-400" />
-                SOLD
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={nextPlayer}
-                className="glass-effect p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 hover:bg-white/10"
-              >
-                <SkipForward className="w-8 h-8" />
-                Next Player
-              </motion.button>
-            </div>
-
-            <div className="grid grid-cols-5 gap-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowRTMTeamSelect(true)}
-                disabled={!currentPlayer}
-                className="bg-blue-500/20 hover:bg-blue-500/30 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <img 
-                  src="/rtm-card.svg" 
-                  alt="RTM"
-                  className="w-12 h-12 object-contain"
-                />
-                RTM
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleUnsold}
-                disabled={!currentPlayer}
-                className="bg-red-500/20 hover:bg-red-500/30 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <X className="w-8 h-8 text-red-400" />
-                UNSOLD
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowUnsoldPlayers(true)}
-                disabled={players.filter(p => p.status === 'unsold').length === 0}
-                className="bg-red-600/20 hover:bg-red-600/30 border-2 border-red-600/50 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <motion.div
-                  animate={{ 
-                    rotate: [0, 360]
+            <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 border-2 border-green-500/50 rounded-2xl p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <motion.div
+                    animate={{
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 360]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    className="bg-green-500 rounded-full p-3"
+                  >
+                    <Check className="w-8 h-8 text-white" />
+                  </motion.div>
+                  <div>
+                    <h3 className="text-2xl font-bold text-green-400">🎉 All Teams Confirmed!</h3>
+                    <p className="text-gray-300 text-lg">
+                      All {teams.length} teams have completed their retention decisions. Ready to start the auction!
+                    </p>
+                  </div>
+                </div>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => {
+                    completeRetentionPhase()
+                    // The start button will become available after retention phase completes
                   }}
-                  transition={{ 
-                    rotate: { duration: 4, repeat: Infinity, ease: "linear" }
+                  className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white px-8 py-4 rounded-xl font-bold text-xl flex items-center gap-3 shadow-2xl"
+                  style={{
+                    boxShadow: '0 0 30px rgba(34, 197, 94, 0.5)'
                   }}
-                  className="text-2xl"
                 >
-                  🔄
-                </motion.div>
-                <span className="text-red-400">BRING BACK ({players.filter(p => p.status === 'unsold').length})</span>
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowEndAuctionModal(true)}
-                className="bg-gradient-to-r from-orange-500/20 to-red-500/20 hover:from-orange-500/30 hover:to-red-500/30 border-2 border-orange-500/50 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 shadow-lg"
-                style={{
-                  boxShadow: '0 0 20px rgba(249, 115, 22, 0.3)'
-                }}
-              >
-                <motion.div
-                  animate={{ 
-                    rotate: [0, 360],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{ 
-                    rotate: { duration: 3, repeat: Infinity, ease: "linear" },
-                    scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-                  }}
-                  className="text-2xl"
-                >
-                  🏁
-                </motion.div>
-                <span className="text-orange-400">END AUCTION</span>
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setShowAddPlayer(true)}
-                className="glass-effect p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 hover:bg-white/10"
-              >
-                <Plus className="w-8 h-8" />
-                Set Current
-              </motion.button>
+                  <motion.div
+                    animate={{ rotate: [0, 360] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                  >
+                    🚀
+                  </motion.div>
+                  START AUCTION
+                </motion.button>
+              </div>
             </div>
           </motion.div>
+        )}
 
-          {/* Current Player Display - Centered & Big */}
-          {currentPlayer && (() => {
-            const bidderTeam = currentPlayer.currentBidder ? teams.find(t => t.name === currentPlayer.currentBidder) : null
-            const themeColor = bidderTeam?.color || 'rgba(100, 116, 139, 0.6)'
-            
-            return (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="glass-effect p-12 rounded-3xl border-4 relative overflow-hidden"
-                style={{
-                  borderColor: themeColor,
-                  boxShadow: `0 0 60px ${themeColor}40, 0 20px 80px rgba(0, 0, 0, 0.6)`
-                }}
-              >
-                {/* Animated background with team color */}
-                <motion.div
-                  animate={{
-                    scale: [1, 1.15, 1],
-                    opacity: [0.3, 0.1, 0.3],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute inset-0"
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Auction Controls */}
+          <div className="lg:col-span-2 space-y-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="glass-effect p-6 rounded-2xl"
+            >
+              <h2 className="text-2xl font-bold mb-6">Auction Controls</h2>
+
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={
+                    isAuctionActive
+                      ? pauseAuction
+                      : retentionPhaseComplete
+                        ? startAuction
+                        : limitsConfigured
+                          ? () => { } // Retention phase is handled by separate component
+                          : () => setShowAuctionConfig(true)
+                  }
+                  disabled={limitsConfigured && !retentionPhaseComplete && !isAuctionActive}
+                  className={`p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 ${isAuctionActive
+                    ? 'bg-red-500/20 hover:bg-red-500/30'
+                    : retentionPhaseComplete
+                      ? 'bg-green-500/20 hover:bg-green-500/30'
+                      : limitsConfigured
+                        ? 'bg-gray-500/20 cursor-not-allowed opacity-50'
+                        : 'bg-green-500/20 hover:bg-green-500/30'
+                    } ${limitsConfigured && !retentionPhaseComplete && !isAuctionActive ? 'disabled:opacity-50 disabled:cursor-not-allowed' : ''}`}
+                >
+                  {isAuctionActive ? (
+                    <>
+                      <Pause className="w-8 h-8" />
+                      Pause
+                    </>
+                  ) : retentionPhaseComplete ? (
+                    <>
+                      <Play className="w-8 h-8" />
+                      Start Auction
+                    </>
+                  ) : limitsConfigured ? (
+                    <>
+                      <Heart className="w-8 h-8 text-purple-400" />
+                      Retention Phase
+                    </>
+                  ) : (
+                    <>
+                      <Settings className="w-8 h-8" />
+                      Retention Configuration
+                    </>
+                  )}
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleSold}
+                  disabled={!currentPlayer?.currentBidder}
+                  className="bg-green-500/20 hover:bg-green-500/30 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <Gavel className="w-8 h-8 text-green-400" />
+                  SOLD
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={nextPlayer}
+                  className="glass-effect p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 hover:bg-white/10"
+                >
+                  <SkipForward className="w-8 h-8" />
+                  Next Player
+                </motion.button>
+              </div>
+
+              <div className="grid grid-cols-5 gap-4">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowRTMTeamSelect(true)}
+                  disabled={!currentPlayer}
+                  className="bg-blue-500/20 hover:bg-blue-500/30 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <img
+                    src="/rtm-card.svg"
+                    alt="RTM"
+                    className="w-12 h-12 object-contain"
+                  />
+                  RTM
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleUnsold}
+                  disabled={!currentPlayer}
+                  className="bg-red-500/20 hover:bg-red-500/30 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <X className="w-8 h-8 text-red-400" />
+                  UNSOLD
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowUnsoldPlayers(true)}
+                  disabled={players.filter(p => p.status === 'unsold').length === 0}
+                  className="bg-red-600/20 hover:bg-red-600/30 border-2 border-red-600/50 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <motion.div
+                    animate={{
+                      rotate: [0, 360]
+                    }}
+                    transition={{
+                      rotate: { duration: 4, repeat: Infinity, ease: "linear" }
+                    }}
+                    className="text-2xl"
+                  >
+                    🔄
+                  </motion.div>
+                  <span className="text-red-400">BRING BACK ({players.filter(p => p.status === 'unsold').length})</span>
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowEndAuctionModal(true)}
+                  className="bg-gradient-to-r from-orange-500/20 to-red-500/20 hover:from-orange-500/30 hover:to-red-500/30 border-2 border-orange-500/50 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 shadow-lg"
                   style={{
-                    background: bidderTeam 
-                      ? `radial-gradient(circle at center, ${bidderTeam.color}40, ${bidderTeam.color}10, transparent 70%)`
-                      : 'radial-gradient(circle at center, rgba(100, 116, 139, 0.2), transparent 70%)'
+                    boxShadow: '0 0 20px rgba(249, 115, 22, 0.3)'
                   }}
-                />
+                >
+                  <motion.div
+                    animate={{
+                      rotate: [0, 360],
+                      scale: [1, 1.1, 1]
+                    }}
+                    transition={{
+                      rotate: { duration: 3, repeat: Infinity, ease: "linear" },
+                      scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    className="text-2xl"
+                  >
+                    🏁
+                  </motion.div>
+                  <span className="text-orange-400">END AUCTION</span>
+                </motion.button>
 
-                {/* Rotating rings animation */}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowAddPlayer(true)}
+                  className="glass-effect p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 hover:bg-white/10"
+                >
+                  <Plus className="w-8 h-8" />
+                  Set Current
+                </motion.button>
+              </div>
+            </motion.div>
+
+            {/* Current Player Display - Centered & Big */}
+            {currentPlayer && (() => {
+              const bidderTeam = currentPlayer.currentBidder ? teams.find(t => t.name === currentPlayer.currentBidder) : null
+              const themeColor = bidderTeam?.color || 'rgba(100, 116, 139, 0.6)'
+
+              return (
                 <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0 opacity-20"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="glass-effect p-12 rounded-3xl border-4 relative overflow-hidden"
                   style={{
-                    background: `conic-gradient(from 0deg, transparent, ${themeColor}, transparent)`
+                    borderColor: themeColor,
+                    boxShadow: `0 0 60px ${themeColor}40, 0 20px 80px rgba(0, 0, 0, 0.6)`
                   }}
-                />
+                >
+                  {/* Animated background with team color */}
+                  <motion.div
+                    animate={{
+                      scale: [1, 1.15, 1],
+                      opacity: [0.3, 0.1, 0.3],
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    className="absolute inset-0"
+                    style={{
+                      background: bidderTeam
+                        ? `radial-gradient(circle at center, ${bidderTeam.color}40, ${bidderTeam.color}10, transparent 70%)`
+                        : 'radial-gradient(circle at center, rgba(100, 116, 139, 0.2), transparent 70%)'
+                    }}
+                  />
 
-                <div className="relative z-10">
-                  {/* Centered Content */}
-                  <div className="text-center mb-8">
-                    <h3 className="text-3xl font-bold mb-8" style={{ color: bidderTeam ? bidderTeam.color : '#cbd5e1' }}>
-                      CURRENT PLAYER
-                    </h3>
+                  {/* Rotating rings animation */}
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute inset-0 opacity-20"
+                    style={{
+                      background: `conic-gradient(from 0deg, transparent, ${themeColor}, transparent)`
+                    }}
+                  />
 
-                    {/* Large Centered Player Image */}
-                    <div className="flex justify-center mb-8">
-                      <motion.div
-                        animate={{
-                          scale: [1, 1.05, 1],
-                        }}
-                        transition={{
-                          duration: 2.5,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                        className="relative"
-                      >
-                        {/* Outer animated ring */}
+                  <div className="relative z-10">
+                    {/* Centered Content */}
+                    <div className="text-center mb-8">
+                      <h3 className="text-3xl font-bold mb-8" style={{ color: bidderTeam ? bidderTeam.color : '#cbd5e1' }}>
+                        CURRENT PLAYER
+                      </h3>
+
+                      {/* Large Centered Player Image */}
+                      <div className="flex justify-center mb-8">
                         <motion.div
                           animate={{
-                            scale: [1, 1.2, 1],
-                            opacity: [0.6, 0.2, 0.6],
-                            rotate: [0, 360]
+                            scale: [1, 1.05, 1],
                           }}
                           transition={{
-                            duration: 4,
-                            repeat: Infinity,
-                            ease: "linear"
-                          }}
-                          className="absolute inset-0 rounded-full"
-                          style={{
-                            border: `4px solid ${themeColor}`,
-                            transform: 'scale(1.25)'
-                          }}
-                        />
-
-                        {/* Player photo */}
-                        <div 
-                          className="relative w-64 h-64 rounded-full overflow-hidden flex-shrink-0 border-8"
-                          style={{
-                            borderColor: themeColor,
-                            boxShadow: `0 0 80px ${themeColor}80, 0 20px 60px rgba(0, 0, 0, 0.7)`,
-                            background: bidderTeam 
-                              ? `linear-gradient(135deg, ${bidderTeam.color}60, ${bidderTeam.color}30)`
-                              : 'linear-gradient(135deg, rgba(71, 85, 105, 0.6), rgba(51, 65, 85, 0.8))'
-                          }}
-                        >
-                          <img
-                            src={getPlayerImage(currentPlayer.name)}
-                            alt={currentPlayer.name}
-                            className="w-full h-full object-cover"
-                            onError={(e) => handleImageError(e, currentPlayer.name)}
-                          />
-                        </div>
-                      </motion.div>
-                    </div>
-
-                    {/* Player Name */}
-                    <motion.div 
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      className="text-6xl font-bold mb-4"
-                      style={{ 
-                        color: bidderTeam ? bidderTeam.color : '#e2e8f0',
-                        textShadow: `0 0 30px ${themeColor}60`
-                      }}
-                    >
-                      {currentPlayer.name}
-                    </motion.div>
-                    
-                    <div className="text-2xl text-gray-300 mb-8">
-                      {currentPlayer.role} • {currentPlayer.country}
-                    </div>
-
-                    {/* Bid Info - Large Cards */}
-                    <div className="grid grid-cols-2 gap-8 max-w-4xl mx-auto">
-                      {/* Current Bid */}
-                      <motion.div 
-                        className="p-8 rounded-2xl border-4 relative overflow-hidden"
-                        style={{
-                          borderColor: `${themeColor}60`,
-                          background: bidderTeam 
-                            ? `linear-gradient(135deg, ${bidderTeam.color}20, ${bidderTeam.color}10)`
-                            : 'linear-gradient(135deg, rgba(51, 65, 85, 0.3), rgba(30, 41, 59, 0.4))'
-                        }}
-                      >
-                        <motion.div
-                          animate={{
-                            scale: [1, 1.1, 1],
-                            opacity: [0.2, 0.05, 0.2],
-                          }}
-                          transition={{
-                            duration: 2,
+                            duration: 2.5,
                             repeat: Infinity,
                             ease: "easeInOut"
                           }}
-                          className="absolute inset-0"
-                          style={{
-                            background: `radial-gradient(circle, ${themeColor}40, transparent 70%)`
-                          }}
-                        />
-                        <div className="relative z-10">
-                          <div className="text-lg text-gray-400 mb-3">CURRENT BID</div>
-                          <motion.div 
-                            key={currentPlayer.currentBid}
-                            initial={{ scale: 1.3, y: -15 }}
-                            animate={{ scale: 1, y: 0 }}
-                            className="text-6xl font-black"
-                            style={{ 
-                              color: bidderTeam ? bidderTeam.color : '#cbd5e1',
-                              textShadow: `0 0 30px ${themeColor}60`
+                          className="relative"
+                        >
+                          {/* Outer animated ring */}
+                          <motion.div
+                            animate={{
+                              scale: [1, 1.2, 1],
+                              opacity: [0.6, 0.2, 0.6],
+                              rotate: [0, 360]
+                            }}
+                            transition={{
+                              duration: 4,
+                              repeat: Infinity,
+                              ease: "linear"
+                            }}
+                            className="absolute inset-0 rounded-full"
+                            style={{
+                              border: `4px solid ${themeColor}`,
+                              transform: 'scale(1.25)'
+                            }}
+                          />
+
+                          {/* Player photo */}
+                          <div
+                            className="relative w-64 h-64 rounded-full overflow-hidden flex-shrink-0 border-8"
+                            style={{
+                              borderColor: themeColor,
+                              boxShadow: `0 0 80px ${themeColor}80, 0 20px 60px rgba(0, 0, 0, 0.7)`,
+                              background: bidderTeam
+                                ? `linear-gradient(135deg, ${bidderTeam.color}60, ${bidderTeam.color}30)`
+                                : 'linear-gradient(135deg, rgba(71, 85, 105, 0.6), rgba(51, 65, 85, 0.8))'
                             }}
                           >
-                            ₹{currentPlayer.currentBid.toFixed(2)}Cr
-                          </motion.div>
-                        </div>
+                            <img
+                              src={getPlayerImage(currentPlayer.name)}
+                              alt={currentPlayer.name}
+                              className="w-full h-full object-cover"
+                              onError={(e) => handleImageError(e, currentPlayer.name)}
+                            />
+                          </div>
+                        </motion.div>
+                      </div>
+
+                      {/* Player Name */}
+                      <motion.div
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        className="text-6xl font-bold mb-4"
+                        style={{
+                          color: bidderTeam ? bidderTeam.color : '#e2e8f0',
+                          textShadow: `0 0 30px ${themeColor}60`
+                        }}
+                      >
+                        {currentPlayer.name}
                       </motion.div>
 
-                      {/* Bidder */}
-                      {currentPlayer.currentBidder && bidderTeam ? (
-                        <motion.div 
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
+                      <div className="text-2xl text-gray-300 mb-8">
+                        {currentPlayer.role} • {currentPlayer.country}
+                      </div>
+
+                      {/* Bid Info - Large Cards */}
+                      <div className="grid grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        {/* Current Bid */}
+                        <motion.div
                           className="p-8 rounded-2xl border-4 relative overflow-hidden"
                           style={{
-                            borderColor: `${bidderTeam.color}60`,
-                            background: `linear-gradient(135deg, ${bidderTeam.color}20, ${bidderTeam.color}10)`
+                            borderColor: `${themeColor}60`,
+                            background: bidderTeam
+                              ? `linear-gradient(135deg, ${bidderTeam.color}20, ${bidderTeam.color}10)`
+                              : 'linear-gradient(135deg, rgba(51, 65, 85, 0.3), rgba(30, 41, 59, 0.4))'
                           }}
                         >
                           <motion.div
@@ -1314,237 +1271,280 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                             }}
                             className="absolute inset-0"
                             style={{
-                              background: `radial-gradient(circle, ${bidderTeam.color}40, transparent 70%)`
+                              background: `radial-gradient(circle, ${themeColor}40, transparent 70%)`
                             }}
                           />
                           <div className="relative z-10">
-                            <div className="text-lg text-gray-400 mb-4">HIGHEST BIDDER</div>
-                            <div className="flex flex-col items-center gap-4">
-                              <motion.div
-                                animate={{
-                                  rotate: [0, 10, -10, 0],
-                                  scale: [1, 1.15, 1]
-                                }}
-                                transition={{
-                                  duration: 2,
-                                  repeat: Infinity,
-                                  ease: "easeInOut"
-                                }}
-                                className="relative"
-                              >
-                                <div 
-                                  className="absolute inset-0 rounded-full blur-2xl"
-                                  style={{ background: bidderTeam.color, opacity: 0.5 }}
-                                />
-                                <img 
-                                  src={bidderTeam.logo} 
-                                  alt={bidderTeam.name} 
-                                  className="w-24 h-24 object-contain relative z-10" 
-                                />
-                              </motion.div>
-                              <div 
-                                className="text-3xl font-bold"
-                                style={{ color: bidderTeam.color }}
-                              >
-                                {currentPlayer.currentBidder}
-                              </div>
-                            </div>
+                            <div className="text-lg text-gray-400 mb-3">CURRENT BID</div>
+                            <motion.div
+                              key={currentPlayer.currentBid}
+                              initial={{ scale: 1.3, y: -15 }}
+                              animate={{ scale: 1, y: 0 }}
+                              className="text-6xl font-black"
+                              style={{
+                                color: bidderTeam ? bidderTeam.color : '#cbd5e1',
+                                textShadow: `0 0 30px ${themeColor}60`
+                              }}
+                            >
+                              ₹{currentPlayer.currentBid.toFixed(2)}Cr
+                            </motion.div>
                           </div>
                         </motion.div>
-                      ) : (
-                        <div 
-                          className="p-8 rounded-2xl border-4 flex items-center justify-center"
-                          style={{
-                            borderColor: 'rgba(100, 116, 139, 0.3)',
-                            background: 'rgba(51, 65, 85, 0.2)'
-                          }}
+
+                        {/* Bidder */}
+                        {currentPlayer.currentBidder && bidderTeam ? (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="p-8 rounded-2xl border-4 relative overflow-hidden"
+                            style={{
+                              borderColor: `${bidderTeam.color}60`,
+                              background: `linear-gradient(135deg, ${bidderTeam.color}20, ${bidderTeam.color}10)`
+                            }}
+                          >
+                            <motion.div
+                              animate={{
+                                scale: [1, 1.1, 1],
+                                opacity: [0.2, 0.05, 0.2],
+                              }}
+                              transition={{
+                                duration: 2,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                              }}
+                              className="absolute inset-0"
+                              style={{
+                                background: `radial-gradient(circle, ${bidderTeam.color}40, transparent 70%)`
+                              }}
+                            />
+                            <div className="relative z-10">
+                              <div className="text-lg text-gray-400 mb-4">HIGHEST BIDDER</div>
+                              <div className="flex flex-col items-center gap-4">
+                                <motion.div
+                                  animate={{
+                                    rotate: [0, 10, -10, 0],
+                                    scale: [1, 1.15, 1]
+                                  }}
+                                  transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    ease: "easeInOut"
+                                  }}
+                                  className="relative"
+                                >
+                                  <div
+                                    className="absolute inset-0 rounded-full blur-2xl"
+                                    style={{ background: bidderTeam.color, opacity: 0.5 }}
+                                  />
+                                  <img
+                                    src={getTeamLogoUrl(bidderTeam.name)}
+                                    alt={bidderTeam.name}
+                                    className="w-24 h-24 object-contain relative z-10"
+                                  />
+                                </motion.div>
+                                <div
+                                  className="text-3xl font-bold"
+                                  style={{ color: bidderTeam.color }}
+                                >
+                                  {currentPlayer.currentBidder}
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        ) : (
+                          <div
+                            className="p-8 rounded-2xl border-4 flex items-center justify-center"
+                            style={{
+                              borderColor: 'rgba(100, 116, 139, 0.3)',
+                              background: 'rgba(51, 65, 85, 0.2)'
+                            }}
+                          >
+                            <div className="text-2xl text-gray-500">No Bidder Yet</div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )
+            })()}
+          </div>
+
+          {/* Stats Sidebar */}
+          <div className="space-y-6">
+            {/* Auction Timer */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+            >
+              <AuctionTimer isAdmin={true} />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="glass-effect p-6 rounded-2xl"
+            >
+              <h3 className="text-xl font-bold mb-4">Statistics</h3>
+              <div className="space-y-4">
+                <div className="bg-white/5 p-4 rounded-xl">
+                  <div className="text-3xl font-bold text-slate-300">{players.length}</div>
+                  <div className="text-sm text-gray-400">Total Players</div>
+                </div>
+                <div className="bg-white/5 p-4 rounded-xl">
+                  <div className="text-3xl font-bold text-blue-400">{teams.length}</div>
+                  <div className="text-sm text-gray-400">Teams</div>
+                </div>
+                <div className="bg-white/5 p-4 rounded-xl">
+                  <div className="text-3xl font-bold text-green-400">
+                    {players.filter(p => p.status === 'sold').length}
+                  </div>
+                  <div className="text-sm text-gray-400">Players Sold</div>
+                </div>
+                <div className="bg-white/5 p-4 rounded-xl">
+                  <div className="text-3xl font-bold text-purple-400">
+                    {players.filter(p => p.status === 'retained').length}
+                  </div>
+                  <div className="text-sm text-gray-400">Players Retained</div>
+                </div>
+                <div className="bg-white/5 p-4 rounded-xl">
+                  <div className="text-3xl font-bold text-red-400">
+                    {players.filter(p => p.status === 'unsold').length}
+                  </div>
+                  <div className="text-sm text-gray-400">Players Unsold</div>
+                </div>
+                {retentionPhaseActive && (
+                  <div className="bg-white/5 p-4 rounded-xl border-2 border-purple-400/30">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-2xl font-bold text-purple-400">
+                        {teams.filter(team => teamRetentionStatus[team.name] === 'confirmed').length}/{teams.length}
+                      </div>
+                      {teams.every(team => teamRetentionStatus[team.name] === 'confirmed') && (
+                        <motion.div
+                          animate={{ scale: [1, 1.2, 1] }}
+                          transition={{ duration: 1, repeat: Infinity }}
+                          className="bg-green-500 rounded-full p-1"
                         >
-                          <div className="text-2xl text-gray-500">No Bidder Yet</div>
-                        </div>
+                          <Check className="w-4 h-4 text-white" />
+                        </motion.div>
                       )}
                     </div>
-                  </div>
-                </div>
-              </motion.div>
-            )
-          })()}
-        </div>
-
-        {/* Stats Sidebar */}
-        <div className="space-y-6">
-          {/* Auction Timer */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-          >
-            <AuctionTimer isAdmin={true} />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="glass-effect p-6 rounded-2xl"
-          >
-            <h3 className="text-xl font-bold mb-4">Statistics</h3>
-            <div className="space-y-4">
-              <div className="bg-white/5 p-4 rounded-xl">
-                <div className="text-3xl font-bold text-slate-300">{players.length}</div>
-                <div className="text-sm text-gray-400">Total Players</div>
-              </div>
-              <div className="bg-white/5 p-4 rounded-xl">
-                <div className="text-3xl font-bold text-blue-400">{teams.length}</div>
-                <div className="text-sm text-gray-400">Teams</div>
-              </div>
-              <div className="bg-white/5 p-4 rounded-xl">
-                <div className="text-3xl font-bold text-green-400">
-                  {players.filter(p => p.status === 'sold').length}
-                </div>
-                <div className="text-sm text-gray-400">Players Sold</div>
-              </div>
-              <div className="bg-white/5 p-4 rounded-xl">
-                <div className="text-3xl font-bold text-purple-400">
-                  {players.filter(p => p.status === 'retained').length}
-                </div>
-                <div className="text-sm text-gray-400">Players Retained</div>
-              </div>
-              <div className="bg-white/5 p-4 rounded-xl">
-                <div className="text-3xl font-bold text-red-400">
-                  {players.filter(p => p.status === 'unsold').length}
-                </div>
-                <div className="text-sm text-gray-400">Players Unsold</div>
-              </div>
-              {retentionPhaseActive && (
-                <div className="bg-white/5 p-4 rounded-xl border-2 border-purple-400/30">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="text-2xl font-bold text-purple-400">
-                      {teams.filter(team => teamRetentionStatus[team.name] === 'confirmed').length}/{teams.length}
-                    </div>
+                    <div className="text-sm text-gray-400">Teams Confirmed</div>
                     {teams.every(team => teamRetentionStatus[team.name] === 'confirmed') && (
-                      <motion.div
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ duration: 1, repeat: Infinity }}
-                        className="bg-green-500 rounded-full p-1"
-                      >
-                        <Check className="w-4 h-4 text-white" />
-                      </motion.div>
+                      <div className="text-xs text-green-400 font-bold mt-1">
+                        🎉 Ready to Start!
+                      </div>
                     )}
                   </div>
-                  <div className="text-sm text-gray-400">Teams Confirmed</div>
-                  {teams.every(team => teamRetentionStatus[team.name] === 'confirmed') && (
-                    <div className="text-xs text-green-400 font-bold mt-1">
-                      🎉 Ready to Start!
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </motion.div>
+                )}
+              </div>
+            </motion.div>
 
 
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowAuctionPool(true)}
-            className="w-full bg-green-500/20 hover:bg-green-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
-          >
-            <List className="w-5 h-5" />
-            Auction Pool
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowSquads(true)}
-            className="w-full bg-blue-500/20 hover:bg-blue-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
-          >
-            <Users className="w-5 h-5" />
-            View Squads
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowTeamAnalysis(true)}
-            className="w-full bg-purple-500/20 hover:bg-purple-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
-          >
-            <TrendingUp className="w-5 h-5" />
-            Analyse Teams
-          </motion.button>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {/* Teams overview removed for frontend-only */}}
-            className="w-full bg-green-500/20 hover:bg-green-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
-          >
-            <Users className="w-5 h-5" />
-            Connected Teams
-          </motion.button>
-
-          {players.filter(p => p.status === 'retained').length > 0 && (
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setShowRetainedPlayers(true)}
+              onClick={() => setShowAuctionPool(true)}
+              className="w-full bg-green-500/20 hover:bg-green-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
+            >
+              <List className="w-5 h-5" />
+              Auction Pool
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowSquads(true)}
+              className="w-full bg-blue-500/20 hover:bg-blue-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
+            >
+              <Users className="w-5 h-5" />
+              View Squads
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowTeamAnalysis(true)}
               className="w-full bg-purple-500/20 hover:bg-purple-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
             >
-              <img 
-                src="/retain-card.svg" 
-                alt="RETAIN"
-                className="w-5 h-3 object-contain"
-              />
-              View Retained Players
+              <TrendingUp className="w-5 h-5" />
+              Analyse Teams
             </motion.button>
-          )}
 
-          {players.filter(p => p.status === 'unsold').length > 0 && (
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setShowUnsoldPlayers(true)}
-              className="w-full bg-red-500/20 hover:bg-red-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
+              onClick={() => {/* Teams overview removed for frontend-only */ }}
+              className="w-full bg-green-500/20 hover:bg-green-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
             >
-              <X className="w-5 h-5 text-red-400" />
-              Unsold Players ({players.filter(p => p.status === 'unsold').length})
+              <Users className="w-5 h-5" />
+              Connected Teams
             </motion.button>
-          )}
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowManualAddPlayer(true)}
-            className="w-full bg-green-600/30 hover:bg-green-600/40 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
-          >
-            <Plus className="w-5 h-5" />
-            Add Player
-          </motion.button>
+            {players.filter(p => p.status === 'retained').length > 0 && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowRetainedPlayers(true)}
+                className="w-full bg-purple-500/20 hover:bg-purple-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
+              >
+                <img
+                  src="/retain-card.svg"
+                  alt="RETAIN"
+                  className="w-5 h-3 object-contain"
+                />
+                View Retained Players
+              </motion.button>
+            )}
 
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              console.log('🧪 Testing audio system...')
-              audioManager.testAudio()
-              setTimeout(() => audioManager.playBidSound(), 500)
-              setTimeout(() => audioManager.playRTMSound(), 1000)
-              setTimeout(() => audioManager.playSoldSound(), 1500)
-            }}
-            className="w-full bg-yellow-600/30 hover:bg-yellow-600/40 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
-          >
-            🔊 Test Audio
-          </motion.button>
+            {players.filter(p => p.status === 'unsold').length > 0 && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowUnsoldPlayers(true)}
+                className="w-full bg-red-500/20 hover:bg-red-500/30 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
+              >
+                <X className="w-5 h-5 text-red-400" />
+                Unsold Players ({players.filter(p => p.status === 'unsold').length})
+              </motion.button>
+            )}
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowManualAddPlayer(true)}
+              className="w-full bg-green-600/30 hover:bg-green-600/40 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
+            >
+              <Plus className="w-5 h-5" />
+              Add Player
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                console.log('🧪 Testing audio system...')
+                audioManager.testAudio()
+                setTimeout(() => audioManager.playBidSound(), 500)
+                setTimeout(() => audioManager.playRTMSound(), 1000)
+                setTimeout(() => audioManager.playSoldSound(), 1500)
+              }}
+              className="w-full bg-yellow-600/30 hover:bg-yellow-600/40 p-4 rounded-xl font-bold flex items-center justify-center gap-2"
+            >
+              🔊 Test Audio
+            </motion.button>
 
 
+          </div>
         </div>
       </div>
-    </div>
 
-    {/* Add Player Modal */}
-    <AddPlayerModal 
-      show={showManualAddPlayer} 
-      onClose={() => setShowManualAddPlayer(false)} 
-    />
+      {/* Add Player Modal */}
+      <AddPlayerModal
+        show={showManualAddPlayer}
+        onClose={() => setShowManualAddPlayer(false)}
+      />
 
 
 
