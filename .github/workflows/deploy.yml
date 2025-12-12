@@ -38,8 +38,6 @@ jobs:
           cp -r .next deployment/
           cp -r server deployment/
           cp -r public deployment/
-          cp -r Logos deployment/
-          cp -r "Team videos" deployment/
           cp package.json deployment/
           cp *.json deployment/
           
