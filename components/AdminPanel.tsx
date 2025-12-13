@@ -1050,9 +1050,9 @@ export default function AdminPanel({ onBack }: AdminPanelProps) {
                   className="bg-blue-500/20 hover:bg-blue-500/30 p-6 rounded-xl font-bold text-lg flex flex-col items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <img
-                    src="/rtm-card.svg"
+                    src={getAssetUrl('/rtm-card.svg')}
                     alt="RTM"
-                    className="w-12 h-12 object-contain"
+                    className="w-6 h-6 object-contain"
                   />
                   RTM
                 </motion.button>
