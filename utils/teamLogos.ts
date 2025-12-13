@@ -1,19 +1,10 @@
 // Team Logo Utility
 // Handles team logo paths and availability
+import { getBasePath } from './appPaths';
 
 // Get server URL for static files
 const getServerUrl = (): string => {
   return process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:5000';
-}
-
-// Helper for GitHub Pages path
-const getBasePath = (): string => {
-  // Check if running on GitHub Pages (often defined in env or inferred)
-  // For this specific user deployment:
-  if (typeof window !== 'undefined' && window.location.pathname.startsWith('/Auction')) {
-    return '/Auction';
-  }
-  return '';
 }
 
 export function getTeamLogoUrl(teamName: string): string {
@@ -67,20 +58,24 @@ export function getTeamVideoUrl(teamName: string): string {
   const basePath = getBasePath();
 
   // Map team names to actual video filenames
+  // Using consistent kebab-case as confirmed by ls-files
   const teamVideoMap: { [key: string]: string } = {
-    'Mumbai Indians': 'mumbai indians.mp4',
-    'Chennai Super Kings': 'csk.mp4',
-    'Royal Challengers Bangalore': 'rcb.mp4',
-    'Kolkata Knight Riders': 'KKR.mp4',
-    'Delhi Capitals': 'DC.mp4',
-    'Punjab Kings': 'pbks.mp4',
-    'Rajasthan Royals': 'RR.mp4',
-    'Sunrisers Hyderabad': 'Srh.mp4',
-    'Gujarat Titans': 'Gt.mp4',
-    'Lucknow Super Giants': 'lsg.mp4'
+    'Mumbai Indians': 'mumbai-indians.mp4',
+    'Chennai Super Kings': 'chennai-super-kings.mp4',
+    'Royal Challengers Bangalore': 'royal-challengers-bangalore.mp4',
+    'Kolkata Knight Riders': 'kolkata-knight-riders.mp4',
+    'Delhi Capitals': 'delhi-capitals.mp4',
+    'Punjab Kings': 'punjab-kings.mp4',
+    'Rajasthan Royals': 'rajasthan-royals.mp4',
+    'Sunrisers Hyderabad': 'sunrisers-hyderabad.mp4',
+    'Gujarat Titans': 'gujarat-titans.mp4',
+    'Lucknow Super Giants': 'lucknow-super-giants.mp4'
   };
 
-  const videoFile = teamVideoMap[teamName] || `${teamName.replace(/\s+/g, '_')}.mp4`;
+  // Fallback to legacy names if needed (though we should avoid this)
+  // Some files might be named differently on disk, but we confirmed these exist
+  const videoFile = teamVideoMap[teamName] || `${teamName.replace(/\s+/g, '-').toLowerCase()}.mp4`;
+
   return `${basePath}/team-videos/${videoFile}`;
 }
 

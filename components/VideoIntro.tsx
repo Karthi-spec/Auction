@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, SkipForward } from 'lucide-react'
 
-import { getAssetUrl } from '@/utils/appPaths'
+import { getTeamVideoUrl } from '@/utils/teamLogos'
 
 interface VideoIntroProps {
   teamName: string
@@ -17,18 +17,7 @@ export default function VideoIntro({ teamName, onComplete, show }: VideoIntroPro
   const videoRef = useRef<HTMLVideoElement>(null)
 
   // Team video mapping
-  const teamVideos: { [key: string]: string } = {
-    'Mumbai Indians': getAssetUrl('/team-videos/mumbai-indians.mp4'),
-    'Chennai Super Kings': getAssetUrl('/team-videos/chennai-super-kings.mp4'),
-    'Royal Challengers Bangalore': getAssetUrl('/team-videos/royal-challengers-bangalore.mp4'),
-    'Kolkata Knight Riders': getAssetUrl('/team-videos/kolkata-knight-riders.mp4'),
-    'Delhi Capitals': getAssetUrl('/team-videos/delhi-capitals.mp4'),
-    'Punjab Kings': getAssetUrl('/team-videos/punjab-kings.mp4'),
-    'Rajasthan Royals': getAssetUrl('/team-videos/rajasthan-royals.mp4'),
-    'Sunrisers Hyderabad': getAssetUrl('/team-videos/sunrisers-hyderabad.mp4'),
-    'Gujarat Titans': getAssetUrl('/team-videos/gujarat-titans.mp4'),
-    'Lucknow Super Giants': getAssetUrl('/team-videos/lucknow-super-giants.mp4')
-  }
+
 
   useEffect(() => {
     if (show) {
@@ -49,7 +38,7 @@ export default function VideoIntro({ teamName, onComplete, show }: VideoIntroPro
     onComplete()
   }
 
-  const videoSrc = teamVideos[teamName]
+  const videoSrc = getTeamVideoUrl(teamName)
 
   if (!show || !videoSrc) return null
 
