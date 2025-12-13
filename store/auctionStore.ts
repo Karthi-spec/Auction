@@ -232,6 +232,9 @@ const samplePlayers: Player[] = playersData.players
     return parseInt(a.id) - parseInt(b.id)
   })
 
+// Helper to get logo URL
+import { getTeamLogoUrl } from '@/utils/teamLogos'
+
 const sampleTeams: Team[] = [
   {
     id: '1',
@@ -239,7 +242,7 @@ const sampleTeams: Team[] = [
     budget: 125,
     players: [],
     color: '#004BA0',
-    logo: '/logos/Original Mumbai Indians PNG-SVG File Download Free Download.png',
+    logo: getTeamLogoUrl('Mumbai Indians'),
     rtmAvailable: 1,
     retentionsUsed: 0
   },
@@ -249,7 +252,7 @@ const sampleTeams: Team[] = [
     budget: 125,
     players: [],
     color: '#FDB913',
-    logo: '/logos/Original Chennai Super Fun Logo PNG - SVG File Download Free Download.png',
+    logo: getTeamLogoUrl('Chennai Super Kings'),
     rtmAvailable: 1,
     retentionsUsed: 0
   },
@@ -259,7 +262,7 @@ const sampleTeams: Team[] = [
     budget: 125,
     players: [],
     color: '#EC1C24',
-    logo: '/logos/rcb-logo-png_seeklogo-531612.png',
+    logo: getTeamLogoUrl('Royal Challengers Bangalore'),
     rtmAvailable: 1,
     retentionsUsed: 0
   },
@@ -269,7 +272,7 @@ const sampleTeams: Team[] = [
     budget: 125,
     players: [],
     color: '#6A4A9E',
-    logo: '/logos/Original Kolkata Knight Riders PNG-SVG File Download Free Download.png',
+    logo: getTeamLogoUrl('Kolkata Knight Riders'),
     rtmAvailable: 1,
     retentionsUsed: 0
   },
@@ -279,7 +282,7 @@ const sampleTeams: Team[] = [
     budget: 125,
     players: [],
     color: '#004C93',
-    logo: '/logos/delhi-capitals.png',
+    logo: getTeamLogoUrl('Delhi Capitals'),
     rtmAvailable: 1,
     retentionsUsed: 0
   },
@@ -289,7 +292,7 @@ const sampleTeams: Team[] = [
     budget: 125,
     players: [],
     color: '#DD1F2D',
-    logo: '/logos/Original Punjab Kings PNG-SVG File Download Free Download.png',
+    logo: getTeamLogoUrl('Punjab Kings'),
     rtmAvailable: 1,
     retentionsUsed: 0
   },
@@ -299,7 +302,7 @@ const sampleTeams: Team[] = [
     budget: 125,
     players: [],
     color: '#254AA5',
-    logo: '/logos/Original Rajasthan Royals Logo PNG-SVG File Download Free Download.png',
+    logo: getTeamLogoUrl('Rajasthan Royals'),
     rtmAvailable: 1,
     retentionsUsed: 0
   },
@@ -309,7 +312,7 @@ const sampleTeams: Team[] = [
     budget: 125,
     players: [],
     color: '#FF822A',
-    logo: '/logos/Original Sunrisers Hyderabad PNG-SVG File Download Free Download.png',
+    logo: getTeamLogoUrl('Sunrisers Hyderabad'),
     rtmAvailable: 1,
     retentionsUsed: 0
   },
@@ -319,7 +322,7 @@ const sampleTeams: Team[] = [
     budget: 125,
     players: [],
     color: '#4A90E2',
-    logo: '/logos/Original Gujarat Titans Logo PNG-SVG File Download Free Download.png',
+    logo: getTeamLogoUrl('Gujarat Titans'),
     rtmAvailable: 1,
     retentionsUsed: 0
   },
@@ -329,7 +332,7 @@ const sampleTeams: Team[] = [
     budget: 125,
     players: [],
     color: '#0E7BC6',
-    logo: '/logos/Original Lucknow Super Giants PNG-SVG File Download Free Download.png',
+    logo: getTeamLogoUrl('Lucknow Super Giants'),
     rtmAvailable: 1,
     retentionsUsed: 0
   }

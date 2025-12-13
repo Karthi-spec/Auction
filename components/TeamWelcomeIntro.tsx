@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, SkipForward, Play } from 'lucide-react'
 import { getAssetUrl } from '@/utils/appPaths'
+import { getTeamLogoUrl, getTeamVideoUrl } from '@/utils/teamLogos'
 // Removed TeamIntroTracker for frontend-only version
 
 // Simple intro tracker replacement for frontend-only version
@@ -25,31 +26,33 @@ export default function TeamWelcomeIntro({ teamName, onComplete, show }: TeamWel
   const videoRef = useRef<HTMLVideoElement>(null)
 
   // Team data with colors and short names
+  // Using getTeamLogoUrl to ensure consistent path handling across the app
+
   const teamData: { [key: string]: { color: string; shortName: string; logo: string } } = {
-    'Mumbai Indians': { color: '#004BA0', shortName: 'MI', logo: getAssetUrl('/logos/Original Mumbai Indians PNG-SVG File Download Free Download.png') },
-    'Chennai Super Kings': { color: '#F7C52D', shortName: 'CSK', logo: getAssetUrl('/logos/Original Chennai Super Fun Logo PNG - SVG File Download Free Download.png') },
-    'Royal Challengers Bangalore': { color: '#D50000', shortName: 'RCB', logo: getAssetUrl('/logos/rcb-logo-png_seeklogo-531612.png') },
-    'Kolkata Knight Riders': { color: '#3A225D', shortName: 'KKR', logo: getAssetUrl('/logos/Original Kolkata Knight Riders PNG-SVG File Download Free Download.png') },
-    'Delhi Capitals': { color: '#282968', shortName: 'DC', logo: getAssetUrl('/logos/delhi-capitals.png') },
-    'Punjab Kings': { color: '#ED1B24', shortName: 'PBKS', logo: getAssetUrl('/logos/Original Punjab Kings PNG-SVG File Download Free Download.png') },
-    'Rajasthan Royals': { color: '#E91E63', shortName: 'RR', logo: getAssetUrl('/logos/Original Rajasthan Royals Logo PNG-SVG File Download Free Download.png') },
-    'Sunrisers Hyderabad': { color: '#FF822A', shortName: 'SRH', logo: getAssetUrl('/logos/Original Sunrisers Hyderabad PNG-SVG File Download Free Download.png') },
-    'Gujarat Titans': { color: '#1C2841', shortName: 'GT', logo: getAssetUrl('/logos/Original Gujarat Titans Logo PNG-SVG File Download Free Download.png') },
-    'Lucknow Super Giants': { color: '#00A8CC', shortName: 'LSG', logo: getAssetUrl('/logos/Original Lucknow Super Giants PNG-SVG File Download Free Download.png') }
+    'Mumbai Indians': { color: '#004BA0', shortName: 'MI', logo: getTeamLogoUrl('Mumbai Indians') },
+    'Chennai Super Kings': { color: '#F7C52D', shortName: 'CSK', logo: getTeamLogoUrl('Chennai Super Kings') },
+    'Royal Challengers Bangalore': { color: '#D50000', shortName: 'RCB', logo: getTeamLogoUrl('Royal Challengers Bangalore') },
+    'Kolkata Knight Riders': { color: '#3A225D', shortName: 'KKR', logo: getTeamLogoUrl('Kolkata Knight Riders') },
+    'Delhi Capitals': { color: '#282968', shortName: 'DC', logo: getTeamLogoUrl('Delhi Capitals') },
+    'Punjab Kings': { color: '#ED1B24', shortName: 'PBKS', logo: getTeamLogoUrl('Punjab Kings') },
+    'Rajasthan Royals': { color: '#E91E63', shortName: 'RR', logo: getTeamLogoUrl('Rajasthan Royals') },
+    'Sunrisers Hyderabad': { color: '#FF822A', shortName: 'SRH', logo: getTeamLogoUrl('Sunrisers Hyderabad') },
+    'Gujarat Titans': { color: '#1C2841', shortName: 'GT', logo: getTeamLogoUrl('Gujarat Titans') },
+    'Lucknow Super Giants': { color: '#00A8CC', shortName: 'LSG', logo: getTeamLogoUrl('Lucknow Super Giants') }
   }
 
   // Team video mapping
   const teamVideos: { [key: string]: string } = {
-    'Mumbai Indians': getAssetUrl('/team-videos/mumbai-indians.mp4'),
-    'Chennai Super Kings': getAssetUrl('/team-videos/chennai-super-kings.mp4'),
-    'Royal Challengers Bangalore': getAssetUrl('/team-videos/royal-challengers-bangalore.mp4'),
-    'Kolkata Knight Riders': getAssetUrl('/team-videos/kolkata-knight-riders.mp4'),
-    'Delhi Capitals': getAssetUrl('/team-videos/delhi-capitals.mp4'),
-    'Punjab Kings': getAssetUrl('/team-videos/punjab-kings.mp4'),
-    'Rajasthan Royals': getAssetUrl('/team-videos/rajasthan-royals.mp4'),
-    'Sunrisers Hyderabad': getAssetUrl('/team-videos/sunrisers-hyderabad.mp4'),
-    'Gujarat Titans': getAssetUrl('/team-videos/gujarat-titans.mp4'),
-    'Lucknow Super Giants': getAssetUrl('/team-videos/lucknow-super-giants.mp4')
+    'Mumbai Indians': getTeamVideoUrl('Mumbai Indians'),
+    'Chennai Super Kings': getTeamVideoUrl('Chennai Super Kings'),
+    'Royal Challengers Bangalore': getTeamVideoUrl('Royal Challengers Bangalore'),
+    'Kolkata Knight Riders': getTeamVideoUrl('Kolkata Knight Riders'),
+    'Delhi Capitals': getTeamVideoUrl('Delhi Capitals'),
+    'Punjab Kings': getTeamVideoUrl('Punjab Kings'),
+    'Rajasthan Royals': getTeamVideoUrl('Rajasthan Royals'),
+    'Sunrisers Hyderabad': getTeamVideoUrl('Sunrisers Hyderabad'),
+    'Gujarat Titans': getTeamVideoUrl('Gujarat Titans'),
+    'Lucknow Super Giants': getTeamVideoUrl('Lucknow Super Giants')
   }
 
   const team = teamData[teamName]
