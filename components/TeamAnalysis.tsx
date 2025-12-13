@@ -39,7 +39,7 @@ export default function TeamAnalysis({ onClose }: TeamAnalysisProps) {
       // For now, we'll simulate squad composition since SquadManager is per-team
       // In a real implementation, this would come from saved squad data
       const teamPlayers = team.players.filter(p => p.status === 'sold' || p.status === 'retained')
-      
+
       // Simulate squad composition (in real app, this would be saved data)
       const playing11 = teamPlayers.slice(0, Math.min(11, teamPlayers.length))
       const impact = teamPlayers.slice(11, Math.min(12, teamPlayers.length))
@@ -54,9 +54,9 @@ export default function TeamAnalysis({ onClose }: TeamAnalysisProps) {
       const playing11Credits = playing11.reduce((sum, player) => sum + getPlayerCredits(player, true), 0)
       const impactCredits = impact.reduce((sum, player) => sum + getPlayerCredits(player, true), 0)
       const benchCredits = bench.reduce((sum, player) => sum + getPlayerCredits(player, false), 0)
-      
+
       const totalCredits = playing11Credits + impactCredits + benchCredits
-      const averageRating = teamPlayers.length > 0 
+      const averageRating = teamPlayers.length > 0
         ? teamPlayers.reduce((sum, player) => sum + (playerRatings[player.name] || 5.0), 0) / teamPlayers.length
         : 0
 
@@ -127,18 +127,42 @@ export default function TeamAnalysis({ onClose }: TeamAnalysisProps) {
     <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm overflow-y-auto p-4">
       <div className="max-w-7xl mx-auto py-8">
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <TrendingUp className="w-8 h-8 text-purple-400" />
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-              Team Analysis & Rankings
-            </h1>
-          </div>
           <button
             onClick={onClose}
-            className="glass-effect p-3 rounded-xl hover:bg-white/10 transition-all"
+            className="glass-effect p-3 rounded-xl hover:bg-white/10 transition-all ml-auto"
           >
             <X className="w-6 h-6" />
           </button>
+        </div>
+
+        {/* Welcome Header */}
+        <div className="text-center mb-12">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center justify-center p-6 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-full border border-yellow-500/30 mb-6"
+          >
+            <Trophy className="w-20 h-20 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.5)]" />
+          </motion.div>
+
+          <motion.h1
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-5xl md:text-7xl font-black bg-gradient-to-r from-yellow-400 via-orange-500 to-purple-600 bg-clip-text text-transparent mb-4 drop-shadow-sm"
+          >
+            IPL MOCK AUCTION 2025
+          </motion.h1>
+
+          <motion.p
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-xl text-gray-400 max-w-2xl mx-auto font-medium"
+          >
+            Strategic Bidding • Squad Building • Championship Glory
+          </motion.p>
         </div>
 
         {/* Analysis Overview */}
@@ -185,9 +209,8 @@ export default function TeamAnalysis({ onClose }: TeamAnalysisProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className={`glass-effect p-6 rounded-2xl border-2 cursor-pointer transition-all ${getRankColor(rank)} ${
-                    isSelected ? 'ring-2 ring-purple-400' : 'hover:border-white/30'
-                  }`}
+                  className={`glass-effect p-6 rounded-2xl border-2 cursor-pointer transition-all ${getRankColor(rank)} ${isSelected ? 'ring-2 ring-purple-400' : 'hover:border-white/30'
+                    }`}
                   onClick={() => setSelectedTeam(isSelected ? null : data.team.name)}
                 >
                   <div className="flex items-center justify-between">
